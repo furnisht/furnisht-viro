@@ -8,7 +8,6 @@ import {
   TouchableHighlight,
   TouchableOpacity
 } from "react-native";
-import { Overlay } from "react-native-elements";
 
 import { ViroARSceneNavigator } from "react-viro";
 
@@ -18,12 +17,6 @@ var sharedProps = {
 
 var InitialARScene = require("./js/HelloWorldSceneAR");
 
-var UNSET = "UNSET";
-
-var AR_NAVIGATOR_TYPE = "AR";
-
-var defaultNavigatorType = UNSET;
-
 export default class ViroSample extends Component {
   constructor() {
     super();
@@ -32,50 +25,55 @@ export default class ViroSample extends Component {
       navigatorType: "hi",
       sharedProps: sharedProps
     };
-    // this._getARNavigator = this._getARNavigator.bind(this);
 
     this._exitViro = this._exitViro.bind(this);
+    this.homePageButtons = this.homePageButtons.bind(this);
   }
 
   render() {
-    return (
-      <View style={localStyles.outer}>
-        <ViroARSceneNavigator
-          style={localStyles.arView}
-          {...this.state.sharedProps}
-          initialScene={{ scene: InitialARScene }}
-        />
-
-        <View style={localStyles.itemBar}>
-          <TouchableOpacity style={localStyles.buttons}>
-            <Text>hi</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+    return this.homePageButtons();
   }
-
-  // _getARNavigator() {
-  //   return (
-  //     <View styles={localStyles.outer}>
-  //       <ViroARSceneNavigator
-  //         {...this.state.sharedProps}
-  //         initialScene={{ scene: InitialARScene }}
-  //       />
-  //     </View>
-  //   );
-  // }
 
   _exitViro() {
     this.setState({
       navigatorType: UNSET
     });
   }
+
+  homePageButtons = () => {
+    // eslint-disable-next-line no-unused-expressions
+    return (
+      <View style={styles.outer}>
+        <ViroARSceneNavigator
+          style={styles.arView}
+          {...this.state.sharedProps}
+          initialScene={{ scene: InitialARScene }}
+        />
+
+        <View style={styles.itemBar}>
+          <TouchableOpacity style={{ marginTop: 500 }}>
+            <Text style={styles.titleText}>Button</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.itemBar}>
+          <TouchableOpacity style={{ marginTop: 500, marginLeft: 140 }}>
+            <Text style={styles.titleText}>Button2</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.itemBar}>
+          <TouchableOpacity style={{ marginTop: 500, marginLeft: 280 }}>
+            <Text style={styles.titleText}>Button3</Text>
+          </TouchableOpacity>
+        </View>
+        {/* // eslint-disable-next-line react/jsx-closing-tag-location */}
+      </View>
+    );
+  };
 }
 
-var localStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   arView: {
-    flex: 1
+    flex: 2
   },
   viroContainer: {
     flex: 1,
@@ -131,12 +129,12 @@ var localStyles = StyleSheet.create({
     width: 100,
     paddingTop: 10,
     paddingBottom: 10,
-    marginTop: 10,
+    marginTop: 30,
     marginBottom: 10,
     backgroundColor: "#68a0cf",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#fff"
+    borderColor: "black"
   },
   itemBar: {
     flex: 1,
