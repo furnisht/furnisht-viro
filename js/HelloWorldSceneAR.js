@@ -24,17 +24,14 @@ export default class HelloWorldSceneAR extends Component {
 
     // Set initial state here
     this.state = {
-      text: "Initializing AR..."
+      text: "Initializing AR...",
+      nodes: []
     };
 
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
     this._onDrag = this._onDrag.bind(this);
     this._onClick = this._onClick.bind(this);
-  }
-
-  createNewNode(){
-
   }
 
   render() {
@@ -61,7 +58,10 @@ export default class HelloWorldSceneAR extends Component {
           color='#ffffff'
           castsShadow={true}
         />
-        <ViroNode
+        {this.state.nodes.map(node => {
+          this.renderNode(node.x, node.y, node.z);
+        })}
+        {/* <ViroNode
           position={[0, -1, 0]}
           dragType='FixedToWorld'
           onDrag={this._onDrag}>
@@ -83,16 +83,14 @@ export default class HelloWorldSceneAR extends Component {
             scale={[0.2, 0.2, 0.2]}
             type='VRX'
           />
-        </ViroNode>
+        </ViroNode> */}
       </ViroARScene>
     );
   }
 
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({
-        text: "Hello whats up!??!"
-      });
+      this.setState({ text: "Hello whats up!??!", nodes: [{ x: 0, y: -1, z: 0 }] });
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
@@ -108,9 +106,41 @@ export default class HelloWorldSceneAR extends Component {
   _onClick(position, source) {
     console.log(`Clicked at ${position}`);
     this.setState({
-      text: 'clicked'
-    })
+      text: "clicked",
+      nodes: [
+        ...this.state.nodes,
+        { x: position[0] + 0.5, y: position[1], z: position[2] }
+      ]
+    });
   }
+
+  renderNode = (x, y, z) => {
+    return (
+      <ViroNode
+        position={[x, y, z]}
+        dragType='FixedToWorld'
+        onDrag={this._onDrag}>
+        <ViroText
+          text={this.state.text}
+          scale={[0.3, 0.3, 0.3]}
+          position={[0, 0.4, 0]}
+          style={styles.helloWorldTextStyle}
+          onClick={this._onClick}
+        />
+        <Viro3DObject
+          source={require("./res/emoji_smile/emoji_smile.vrx")}
+          resources={[
+            require("./res/emoji_smile/emoji_smile_diffuse.png"),
+            require("./res/emoji_smile/emoji_smile_normal.png"),
+            require("./res/emoji_smile/emoji_smile_specular.png")
+          ]}
+          position={[0, 0, 0.1]}
+          scale={[0.2, 0.2, 0.2]}
+          type='VRX'
+        />
+      </ViroNode>
+    );
+  };
 }
 
 var styles = StyleSheet.create({
