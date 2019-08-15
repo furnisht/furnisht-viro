@@ -25,7 +25,7 @@ export default class HelloWorldSceneAR extends Component {
     // Set initial state here
     this.state = {
       text: "Initializing AR...",
-      nodes: []
+      nodes: [{ x: 0, y: -1, z: 0 }]
     };
 
     // bind 'this' to functions
@@ -90,7 +90,7 @@ export default class HelloWorldSceneAR extends Component {
 
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ text: "Hello whats up!??!", nodes: [{ x: 0, y: -1, z: 0 }] });
+      this.setState({ text: `${this.state.nodes[0].y}` });
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
