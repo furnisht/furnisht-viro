@@ -29,6 +29,12 @@ export default class HelloWorldSceneAR extends Component {
 
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
+    this._onDrag = this._onDrag.bind(this);
+    this._onClick = this._onClick.bind(this);
+  }
+
+  createNewNode(){
+
   }
 
   render() {
@@ -58,8 +64,14 @@ export default class HelloWorldSceneAR extends Component {
         <ViroNode
           position={[0, -1, 0]}
           dragType='FixedToWorld'
-          onDrag={() => {}}
-          onClick={this._onClick}>
+          onDrag={this._onDrag}>
+          <ViroText
+            text={this.state.text}
+            scale={[0.3, 0.3, 0.3]}
+            position={[0, 0.4, 0]}
+            style={styles.helloWorldTextStyle}
+            onClick={this._onClick}
+          />
           <Viro3DObject
             source={require("./res/emoji_smile/emoji_smile.vrx")}
             resources={[
@@ -67,7 +79,7 @@ export default class HelloWorldSceneAR extends Component {
               require("./res/emoji_smile/emoji_smile_normal.png"),
               require("./res/emoji_smile/emoji_smile_specular.png")
             ]}
-            position={[0, 0.1, 0]}
+            position={[0, 0, 0.1]}
             scale={[0.2, 0.2, 0.2]}
             type='VRX'
           />
@@ -86,10 +98,18 @@ export default class HelloWorldSceneAR extends Component {
     }
   }
   _onDrag(draggedToPosition, source) {
+    console.log("logggggg");
     this.setState({
-      text: `To ${draggedToPosition[0]}`
+      text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
+        draggedToPosition[1] * 10
+      )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
+    });
+  }
+  _onClick(position, source) {
+    console.log(`Clicked at ${position}`);
+    this.setState({
+      text: 'clicked'
     })
-    console.log(`To ${draggedToPosition[0]}`);
   }
 }
 
