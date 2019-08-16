@@ -72,6 +72,27 @@ const styles = StyleSheet.create({
     top: 100,
     paddingBottom: 85,
     padding: 20
+  },
+
+  modalStyle: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)"
+  },
+  containerStyle: {
+    flex: 1,
+    marginTop: 40,
+    marginBottom: 40,
+    marginLeft: 15,
+    marginRight: 15,
+    backgroundColor: "white"
+  },
+  buttonContainer: {
+    paddingBottom: 0
+  },
+  dialogueText: {
+    color: "#000",
+    textAlign: "center",
+    fontSize: 20
   }
 });
 
