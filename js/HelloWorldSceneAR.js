@@ -1,9 +1,6 @@
 "use strict";
-
 import React, { Component } from "react";
-
 import { StyleSheet } from "react-native";
-
 import {
   ViroARScene,
   ViroText,
@@ -17,23 +14,19 @@ import {
   ViroNode,
   ViroAnimations
 } from "react-viro";
-
 export default class HelloWorldSceneAR extends Component {
   constructor() {
     super();
-
     // Set initial state here
     this.state = {
       text: "Initializing AR...",
-      nodes: []
+      nodes: [{ x: 0, y: 0, z: 1, key: 0 }]
     };
-
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
     this._onDrag = this._onDrag.bind(this);
     this._onClick = this._onClick.bind(this);
   }
-
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
@@ -43,12 +36,12 @@ export default class HelloWorldSceneAR extends Component {
           position={[0, 0, -1]}
           style={styles.helloWorldTextStyle}
         />
-        <ViroBox
+        {/* <ViroBox
           position={[0, -0.5, -1]}
           scale={[0.3, 0.3, 0.1]}
           materials={["grid"]}
           animation={{ name: "rotate", run: true, loop: true }}
-        />
+        /> */}
         <ViroAmbientLight color={"#aaaaaa"} />
         <ViroSpotLight
           innerAngle={5}
@@ -58,45 +51,22 @@ export default class HelloWorldSceneAR extends Component {
           color='#ffffff'
           castsShadow={true}
         />
-        {this.state.nodes.map(node => {
-          this.renderNode(node.x, node.y, node.z);
-        })}
-        {/* <ViroNode
-          position={[0, -1, 0]}
-          dragType='FixedToWorld'
-          onDrag={this._onDrag}>
-          <ViroText
-            text={this.state.text}
-            scale={[0.3, 0.3, 0.3]}
-            position={[0, 0.4, 0]}
-            style={styles.helloWorldTextStyle}
-            onClick={this._onClick}
-          />
-          <Viro3DObject
-            source={require("./res/emoji_smile/emoji_smile.vrx")}
-            resources={[
-              require("./res/emoji_smile/emoji_smile_diffuse.png"),
-              require("./res/emoji_smile/emoji_smile_normal.png"),
-              require("./res/emoji_smile/emoji_smile_specular.png")
-            ]}
-            position={[0, 0, 0.1]}
-            scale={[0.2, 0.2, 0.2]}
-            type='VRX'
-          />
-        </ViroNode> */}
+        {this.state.nodes &&
+          this.state.nodes.map((node, idx) => {
+            return this.renderNode(node.x, node.y, node.z, idx);
+          })}
+        {/* {this.renderNode(0, -1, 0)} */}
       </ViroARScene>
     );
   }
-
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ text: "Hello whats up!??!", nodes: [{ x: 0, y: -1, z: 0 }] });
+      this.setState({ text: String(this.state.nodes[0].x) });
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
   }
   _onDrag(draggedToPosition, source) {
-    console.log("logggggg");
     this.setState({
       text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
         draggedToPosition[1] * 10
@@ -104,28 +74,34 @@ export default class HelloWorldSceneAR extends Component {
     });
   }
   _onClick(position, source) {
-    console.log(`Clicked at ${position}`);
+    let copiedState = [];
+    for (let i = 0; i < this.state.nodes.length; i++) {
+      copiedState.push({ ...this.state.nodes[i] });
+    }
+    copiedState.push({ x: position[0] + 0.5, y: position[1], z: position[2] });
     this.setState({
       text: "clicked",
-      nodes: [
-        ...this.state.nodes,
-        { x: position[0] + 0.5, y: position[1], z: position[2] }
-      ]
+      nodes: copiedState
+      // nodes: this.state.nodes.concat({x: position[0] + 0.5, y: position[1], z: position[2]}) zooms
+      // nodes: [{ x: 0, y: 0, z: 1, key: 0}, {x: position[0] + 0.5, y: position[1], z: position[2]}]
+      // nodes: [{x: position[0] + 0.5, y: position[1], z: position[2]}]
+      // nodes: [...this.state.nodes, {x: position[0] + 0.5, y: position[1], z: position[2]}] zooms
+      // nodes: this.state.nodes.push({x: position[0] + 0.5, y: position[1], z: position[2]})
     });
   }
-
-  renderNode = (x, y, z) => {
+  renderNode = (x, y, z, key) => {
     return (
       <ViroNode
         position={[x, y, z]}
+        key={key}
         dragType='FixedToWorld'
-        onDrag={this._onDrag}>
+        onDrag={this._onDrag}
+        onClick={this._onClick}>
         <ViroText
           text={this.state.text}
           scale={[0.3, 0.3, 0.3]}
           position={[0, 0.4, 0]}
           style={styles.helloWorldTextStyle}
-          onClick={this._onClick}
         />
         <Viro3DObject
           source={require("./res/emoji_smile/emoji_smile.vrx")}
@@ -142,7 +118,6 @@ export default class HelloWorldSceneAR extends Component {
     );
   };
 }
-
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: "Arial",
@@ -152,13 +127,11 @@ var styles = StyleSheet.create({
     textAlign: "center"
   }
 });
-
 ViroMaterials.createMaterials({
   grid: {
     diffuseTexture: require("./res/grid_bg.jpg")
   }
 });
-
 ViroAnimations.registerAnimations({
   rotate: {
     properties: {
@@ -169,5 +142,4 @@ ViroAnimations.registerAnimations({
     duration: 1000 //.25 seconds
   }
 });
-
 module.exports = HelloWorldSceneAR;
