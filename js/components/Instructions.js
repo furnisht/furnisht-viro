@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../../styles";
 import {
   AppRegistry,
+  Button,
   Text,
   View,
   Modal,
@@ -33,17 +34,23 @@ export class Instructions extends React.Component {
           Alert.alert("Modal has been closed.");
         }}
       >
-        <View style={{ marginTop: 22 }}>
-          <View>
-            <Text>Watch the instructional below!</Text>
+        <View style={styles.modalStyle}>
+          <View style={styles.containerStyle}>
+            <Text style={styles.dialogueText}>
+              New to the app? Watch the instructional below!
+            </Text>
 
-            <TouchableHighlight
-              onPress={() => {
-                this.setModalVisible(!this.state.firstTime);
-              }}
-            >
-              <Text>I've seen enough, get me out of here...</Text>
-            </TouchableHighlight>
+            <View style={styles.buttonContainer}>
+              <Button
+                raised
+                icon={{ name: "Close" }}
+                title="I've seen enough, get me out.."
+                backgroundColor="#2196F3"
+                onPress={() => {
+                  this.setModalVisible(!this.state.firstTime);
+                }}
+              />
+            </View>
           </View>
         </View>
       </Modal>
