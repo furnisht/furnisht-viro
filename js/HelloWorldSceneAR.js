@@ -20,7 +20,8 @@ export default class HelloWorldSceneAR extends Component {
     // Set initial state here
     this.state = {
       text: "Initializing AR...",
-      nodes: [{ x: 0, y: 0, z: 1, key: 0 }]
+      otherText: "better text",
+      nodes: [{ x: 0, y: -1, z: -1, key: 0 }]
     };
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
@@ -40,13 +41,12 @@ export default class HelloWorldSceneAR extends Component {
           position={[0, -0.5, -1]}
           scale={[0.3, 0.3, 0.1]}
           materials={["grid"]}
-          animation={{ name: "rotate", run: true, loop: true }}
         /> */}
         <ViroAmbientLight color={"#aaaaaa"} />
         <ViroSpotLight
           innerAngle={5}
           outerAngle={90}
-          direction={[0, -1, -0.2]}
+          direction={[0, -1, -0.5]}
           position={[0, 3, 1]}
           color='#ffffff'
           castsShadow={true}
@@ -61,32 +61,25 @@ export default class HelloWorldSceneAR extends Component {
   }
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ text: String(this.state.nodes[0].x) });
+      this.setState({ otherText: String(this.state.nodes[0].x) });
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
   }
   _onDrag(draggedToPosition, source) {
-    this.setState({
-      text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
-        draggedToPosition[1] * 10
-      )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
-    });
+    // this.setState({
+    //   otherText: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
+    //     draggedToPosition[1] * 10
+    //   )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
+    // });
   }
   _onClick(position, source) {
-    let copiedState = [];
-    for (let i = 0; i < this.state.nodes.length; i++) {
-      copiedState.push({ ...this.state.nodes[i] });
-    }
-    copiedState.push({ x: position[0] + 0.5, y: position[1], z: position[2] });
     this.setState({
       text: "clicked",
-      nodes: copiedState
-      // nodes: this.state.nodes.concat({x: position[0] + 0.5, y: position[1], z: position[2]}) zooms
-      // nodes: [{ x: 0, y: 0, z: 1, key: 0}, {x: position[0] + 0.5, y: position[1], z: position[2]}]
-      // nodes: [{x: position[0] + 0.5, y: position[1], z: position[2]}]
-      // nodes: [...this.state.nodes, {x: position[0] + 0.5, y: position[1], z: position[2]}] zooms
-      // nodes: this.state.nodes.push({x: position[0] + 0.5, y: position[1], z: position[2]})
+      nodes: [
+        ...this.state.nodes,
+        { x: position[0] + 0.2, y: position[1], z: position[2] }
+      ]
     });
   }
   renderNode = (x, y, z, key) => {
@@ -110,7 +103,7 @@ export default class HelloWorldSceneAR extends Component {
             require("./res/emoji_smile/emoji_smile_normal.png"),
             require("./res/emoji_smile/emoji_smile_specular.png")
           ]}
-          position={[0, 0, 0.1]}
+          position={[0, 0.1, 0]}
           scale={[0.2, 0.2, 0.2]}
           type='VRX'
         />
