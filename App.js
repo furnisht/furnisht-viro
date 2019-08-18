@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import { Instructions } from "./js/components/Instructions";
 import { FurnitureScreen } from "./js/components/FurnitureScreen";
+import { Overlay } from "react-native-elements";
 
 import { ViroARSceneNavigator } from "react-viro";
 
@@ -39,7 +40,14 @@ export default class Main extends Component {
           initialScene={{ scene: InitialARScene }}
         />
         <Instructions />
-        <View isVirible />
+        <Overlay
+          isVisible={this.state.furnishScreen}
+          overlayBackgroundColor="#72e6c7"
+          width="auto"
+          height="auto"
+        >
+          <FurnitureScreen />
+        </Overlay>
         <View style={styles.navBar}>
           <TouchableOpacity>
             <Text style={styles.titleText}>Floor Plan</Text>
