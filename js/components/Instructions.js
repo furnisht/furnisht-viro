@@ -7,7 +7,8 @@ import {
   Modal,
   PixelRatio,
   TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView
 } from "react-native";
 
 export class Instructions extends React.Component {
@@ -25,28 +26,30 @@ export class Instructions extends React.Component {
 
   render() {
     return (
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={this.state.firstTime}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
-      >
-        <View style={{ marginTop: 22 }}>
-          <View>
-            <Text>Watch the instructional below!</Text>
+      <SafeAreaView>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.firstTime}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+          }}
+        >
+          <View style={{ marginTop: 22 }}>
+            <View>
+              <Text>Watch the instructional below!</Text>
 
-            <TouchableHighlight
-              onPress={() => {
-                this.setModalVisible(!this.state.firstTime);
-              }}
-            >
-              <Text>I've seen enough, get me out of here...</Text>
-            </TouchableHighlight>
+              <TouchableHighlight
+                onPress={() => {
+                  this.setModalVisible(!this.state.firstTime);
+                }}
+              >
+                <Text>I've seen enough, get me out of here...</Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
+      </SafeAreaView>
     );
   }
 }
