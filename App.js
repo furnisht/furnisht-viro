@@ -28,7 +28,7 @@ export default class Main extends Component {
   }
 
   furnishButton = () => {
-    this.setState({ furnishScreen: true });
+    this.setState({ furnishScreen: !this.state.furnishScreen });
   };
 
   render() {
@@ -40,14 +40,9 @@ export default class Main extends Component {
           initialScene={{ scene: InitialARScene }}
         />
         <Instructions />
-        <Overlay
-          isVisible={this.state.furnishScreen}
-          overlayBackgroundColor="#72e6c7"
-          width="auto"
-          height="auto"
-        >
-          <FurnitureScreen />
-        </Overlay>
+        {this.state.furnishScreen && (
+          <FurnitureScreen visible={this.state.furnishScreen} />
+        )}
         <View style={styles.navBar}>
           <TouchableOpacity>
             <Text style={styles.titleText}>Floor Plan</Text>
