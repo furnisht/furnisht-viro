@@ -21,8 +21,7 @@ export default class HomeScreen extends Component {
     // Set initial state here
     this.state = {
       text: "Initializing AR...",
-      otherText: "better text",
-      nodes: [{ x: 0, y: -1, z: -1, key: 0 }]
+      nodes: [{ x: 0, y: 0, z: 1, key: 0 }]
     };
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
@@ -42,12 +41,13 @@ export default class HomeScreen extends Component {
           position={[0, -0.5, -1]}
           scale={[0.3, 0.3, 0.1]}
           materials={["grid"]}
+          animation={{ name: "rotate", run: true, loop: true }}
         /> */}
         <ViroAmbientLight color={"#aaaaaa"} />
         <ViroSpotLight
           innerAngle={5}
           outerAngle={90}
-          direction={[0, -1, -0.5]}
+          direction={[0, -1, -0.2]}
           position={[0, 3, 1]}
           color="#ffffff"
           castsShadow={true}
@@ -62,17 +62,17 @@ export default class HomeScreen extends Component {
   }
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ otherText: String(this.state.nodes[0].x) });
+      this.setState({ text: String(this.state.nodes[0].x) });
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
   }
   _onDrag(draggedToPosition, source) {
-    // this.setState({
-    //   otherText: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
-    //     draggedToPosition[1] * 10
-    //   )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
-    // });
+    this.setState({
+      text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
+        draggedToPosition[1] * 10
+      )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
+    });
   }
   _onClick(position, source) {
     this.setState({
@@ -105,7 +105,7 @@ export default class HomeScreen extends Component {
             require("../res/emoji_smile/emoji_smile_normal.png"),
             require("../res/emoji_smile/emoji_smile_specular.png")
           ]}
-          position={[0, 0.1, 0]}
+          position={[0, 0, 0.1]}
           scale={[0.2, 0.2, 0.2]}
           type="VRX"
         />

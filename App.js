@@ -6,7 +6,7 @@ import { FurnitureScreen } from "./js/components/FurnitureScreen";
 import { Overlay } from "react-native-elements";
 
 import { ViroARSceneNavigator } from "react-viro";
-
+//
 var sharedProps = {
   apiKey: "8C55396A-5FCB-4D94-B114-2F823C35529C"
 };
@@ -39,7 +39,7 @@ export default class Main extends Component {
           {...this.state.sharedProps}
           initialScene={{ scene: InitialARScene }}
         />
-        <Instructions />
+        {/* <Instructions /> */}
         {this.state.furnishScreen && (
           <FurnitureScreen visible={this.state.furnishScreen} />
         )}
