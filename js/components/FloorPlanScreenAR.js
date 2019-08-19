@@ -15,7 +15,7 @@ import {
   ViroAnimations
 } from "react-viro";
 
-export default class HomeScreen extends Component {
+export default class FloorPlanScreen extends Component {
   constructor() {
     super();
     // Set initial state here
@@ -62,7 +62,7 @@ export default class HomeScreen extends Component {
   }
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ text: String(this.state.nodes[0].x) });
+      this.setState({ text: "floorplanscreenAR" });
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
@@ -137,4 +137,4 @@ ViroAnimations.registerAnimations({
     duration: 1000 //.25 seconds
   }
 });
-module.exports = HomeScreen;
+module.exports = FloorPlanScreen;
