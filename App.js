@@ -11,7 +11,7 @@ var sharedProps = {
   apiKey: "8C55396A-5FCB-4D94-B114-2F823C35529C"
 };
 
-var InitialARScene = require("./js/components/HomeScreen");
+var InitialARScene = require("./js/components/DefaultScreen");
 
 export default class Main extends Component {
   constructor() {
@@ -33,33 +33,12 @@ export default class Main extends Component {
 
   render() {
     return (
-      <View style={styles.outer}>
-        <ViroARSceneNavigator
-          style={styles.arView}
-          {...this.state.sharedProps}
-          initialScene={{ scene: InitialARScene }}
-        />
-        {/* <Instructions /> */}
-        {this.state.furnishScreen && (
-          <FurnitureScreen visible={this.state.furnishScreen} />
-        )}
-        <View style={styles.navBar}>
-          <TouchableOpacity>
-            <Text style={styles.titleText}>Floor Plan</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Text style={styles.titleText} onPress={this.furnishButton}>
-              Furnish
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Text style={styles.titleText}>Project</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+      {if (this.state.furnishScreen) {
+        return <FurnitureScreen />
+      } else {
+        this.homeScreen()
+      }}
+      );
   }
 
   _exitViro() {
@@ -70,3 +49,35 @@ export default class Main extends Component {
 }
 
 module.exports = Main;
+
+
+const homeScreen = () => {
+  return (
+  <View style={styles.outer}>
+  <ViroARSceneNavigator
+    style={styles.arView}
+    {...this.state.sharedProps}
+    initialScene={{ scene: InitialARScene }}
+  />
+  {/* <Instructions /> */}
+  {this.state.furnishScreen && (
+    <FurnitureScreen visible={this.state.furnishScreen} />
+  )}
+</View>
+     <View style={styles.navBar}>
+     <TouchableOpacity>
+       <Text style={styles.titleText}>Floor Plan</Text>
+     </TouchableOpacity>
+
+     <TouchableOpacity>
+       <Text style={styles.titleText} onPress={this.furnishButton}>
+         Furnish
+       </Text>
+     </TouchableOpacity>
+
+     <TouchableOpacity>
+       <Text style={styles.titleText}>Project</Text>
+     </TouchableOpacity>
+   </View>
+  )
+}
