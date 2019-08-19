@@ -1,25 +1,31 @@
 {
-  "name": "ViroSample",
+  "name": "furnisht",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "prestart": "./node_modules/react-viro/bin/run_ngrok.sh",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "seed": "node script/seed.js",
+    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client"
   },
   "dependencies": {
+    "connect-session-sequelize": "^6.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
     "ngrok": "^3.2.5",
+    "passport": "^0.4.0",
+    "pg": "^7.12.1",
     "react": "16.8.3",
     "react-native": "0.59.3",
-
     "react-native-display": "^1.0.8",
     "react-native-elements": "^1.1.0",
     "react-native-firebase": "^5.5.6",
     "react-native-image-overlay": "^0.1.2",
     "react-native-vector-icons": "^6.6.0",
-
     "react-navigation": "^3.11.1",
-    "react-viro": "2.16.0"
+    "react-viro": "2.16.0",
+    "sequelize": "^5.15.1"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
