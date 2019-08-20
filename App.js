@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import { Instructions } from "./js/components/Instructions";
 import { FurnitureScreen } from "./js/components/FurnitureScreen";
+import { key } from "./secrets";
 
 import FloorPlanScreen from "./js/components/FloorPlanScreenAR";
 
@@ -10,12 +11,12 @@ import { Overlay } from "react-native-elements";
 
 import { ViroARSceneNavigator } from "react-viro";
 //
-var sharedProps = {
-  apiKey: "8C55396A-5FCB-4D94-B114-2F823C35529C"
+const sharedProps = {
+  apiKey: key
 };
 
-var InitialARScene = require("./js/components/FurnitureScreenAR");
-var FloorPlanScreenAR = require("./js/components/FloorPlanScreenAR");
+const InitialARScene = require("./js/components/FurnitureScreenAR");
+// var FloorPlanScreenAR = require("./js/components/FloorPlanScreenAR");
 
 export default class Main extends Component {
   constructor() {
@@ -26,7 +27,12 @@ export default class Main extends Component {
       sharedProps: sharedProps,
       furnishScreen: false,
       floorPlanScreen: false,
-      homeScreen: true
+      homeScreen: true,
+      fPNodes: [
+        { x: 0, y: 0, z: 1, key: 0 },
+        { x: 1, y: 0, z: 1, key: 1 },
+        { x: 1, y: 1, z: 1, key: 2 }
+      ]
     };
 
     this._exitViro = this._exitViro.bind(this);
@@ -38,6 +44,8 @@ export default class Main extends Component {
 
     this.furnishStateToggle = this.furnishStateToggle.bind(this);
     this.floorStateToggle = this.floorStateToggle.bind(this);
+    this.newFPNodeButton = this.newFPNodeButton.bind(this);
+    this.deleteFPNodeButton = this.deleteFPNodeButton.bind(this);
   }
 
   furnishButton = () => {
@@ -53,6 +61,23 @@ export default class Main extends Component {
       homeScreen: false
     });
   };
+
+  newFPNodeButton(node) {
+    this.setState({
+      fPNodes: [
+        ...this.state.fPNodes,
+        { x: node.x + 0.1, y: node.y, z: node.z, key: node.key + 1 }
+      ]
+    });
+  }
+
+  deleteFPNodeButton() {
+    let newArr = this.state.fPNodes;
+    newArr.pop();
+    this.setState({
+      fPNodes: newArr
+    });
+  }
 
   render() {
     return (
@@ -80,6 +105,7 @@ export default class Main extends Component {
             style={styles.arView}
             {...this.state.sharedProps}
             initialScene={{ scene: FloorPlanScreen }}
+            viroAppProps={{ nodes: this.state.fPNodes }}
           />
         )}
 
@@ -122,7 +148,9 @@ export default class Main extends Component {
           <Image source={require("./js/res/go-back-left-arrow.png")} />
         </TouchableOpacity>
         <TouchableOpacity>
-          <Text style={styles.titleText}>Undo</Text>
+          <Text style={styles.titleText} onPress={this.deleteFPNodeButton}>
+            Undo
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
@@ -130,7 +158,14 @@ export default class Main extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={styles.titleText}>New Marker</Text>
+          <Text
+            style={styles.titleText}
+            // onPress={this.newFPNodeButton(
+            //   this.state.fPNodes[this.state.fPNodes.length - 1]
+            // )}
+          >
+            New Marker
+          </Text>
         </TouchableOpacity>
       </View>
     );
