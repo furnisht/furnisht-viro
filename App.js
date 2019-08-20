@@ -37,7 +37,6 @@ export default class Main extends Component {
 
     this._exitViro = this._exitViro.bind(this);
     this.furnishButton = this.furnishButton.bind(this);
-    this.floorPlanButton = this.floorPlanButton.bind(this);
 
     this.homeScreenButtons = this.homeScreenButtons.bind(this);
     this.floorPlanScreenButtons = this.floorPlanScreenButtons.bind(this);
@@ -62,12 +61,17 @@ export default class Main extends Component {
     });
   };
 
-  newFPNodeButton(node) {
+  newFPNodeButton() {
+    let newArr = this.state.fPNodes;
+    const mostRecentNode = newArr[newArr.length - 1];
+    newArr.push({
+      x: mostRecentNode.x + 0.1,
+      y: mostRecentNode.y,
+      z: mostRecentNode.z,
+      key: mostRecentNode.key + 1
+    });
     this.setState({
-      fPNodes: [
-        ...this.state.fPNodes,
-        { x: node.x + 0.1, y: node.y, z: node.z, key: node.key + 1 }
-      ]
+      fPNodes: newArr
     });
   }
 
@@ -158,12 +162,7 @@ export default class Main extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text
-            style={styles.titleText}
-            // onPress={this.newFPNodeButton(
-            //   this.state.fPNodes[this.state.fPNodes.length - 1]
-            // )}
-          >
+          <Text style={styles.titleText} onPress={this.newFPNodeButton}>
             New Marker
           </Text>
         </TouchableOpacity>
