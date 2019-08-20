@@ -41,7 +41,7 @@ export class FurnitureScreen extends React.Component {
   //   //put thunk here to add an item to a project board
   // }
   onBack = () => {
-    this.props.toggleVisibility()
+    this.props.toggleVisibility();
   };
 
   render() {
