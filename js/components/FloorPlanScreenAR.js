@@ -20,14 +20,17 @@ export default class FloorPlanScreen extends Component {
     super();
     // Set initial state here
     this.state = {
-      text: "Initializing AR...",
-      nodes: [{ x: 0, y: 0, z: 1, key: 0 }]
+      text: "Initializing AR Scene",
+      nodes: []
     };
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
     this._onDrag = this._onDrag.bind(this);
-    this._onClick = this._onClick.bind(this);
+    this.renderNode = this.renderNode.bind(this);
+
+    // this._onClick = this._onClick.bind(this);
   }
+
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
@@ -62,7 +65,10 @@ export default class FloorPlanScreen extends Component {
   }
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ text: "floorplanscreenAR" });
+      this.setState({
+        text: "floorPlanScreenAR",
+        nodes: this.props.sceneNavigator.viroAppProps.nodes
+      });
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }
@@ -74,16 +80,16 @@ export default class FloorPlanScreen extends Component {
       )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
     });
   }
-  _onClick(position, source) {
-    this.setState({
-      text: "clicked",
-      nodes: [
-        ...this.state.nodes,
-        { x: position[0] + 0.2, y: position[1], z: position[2] }
-      ]
-    });
-  }
-  renderNode = (x, y, z, key) => {
+  // _onClick(position, source) {
+  //   this.setState({
+  //     text: "clicked",
+  //     nodes: [
+  //       ...this.state.nodes,
+  //       { x: position[0] + .2, y: position[1], z: position[2] }
+  //     ]
+  //   });
+
+  renderNode(x, y, z, key) {
     return (
       <ViroNode
         position={[x, y, z]}
@@ -92,12 +98,12 @@ export default class FloorPlanScreen extends Component {
         onDrag={this._onDrag}
         onClick={this._onClick}
       >
-        <ViroText
+        {/* <ViroText
           text={this.state.text}
           scale={[0.3, 0.3, 0.3]}
           position={[0, 0.4, 0]}
           style={styles.helloWorldTextStyle}
-        />
+        /> */}
         <Viro3DObject
           source={require("../res/emoji_smile/emoji_smile.vrx")}
           resources={[
@@ -111,8 +117,9 @@ export default class FloorPlanScreen extends Component {
         />
       </ViroNode>
     );
-  };
+  }
 }
+
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: "Arial",
