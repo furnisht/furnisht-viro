@@ -33,7 +33,7 @@ export default class FloorPlanScreen extends Component {
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         <ViroText
           text={this.state.text}
-          scale={[0.5, 0.5, 0.5]}
+          scale={[0.2, 0.2, 0.2]}
           position={[0, 0, -1]}
           style={styles.helloWorldTextStyle}
         />
