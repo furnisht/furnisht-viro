@@ -44,6 +44,7 @@ export default class Main extends Component {
     this.newFPNodeButton = this.newFPNodeButton.bind(this);
     this.deleteFPNodeButton = this.deleteFPNodeButton.bind(this);
     this.createFloorPlan = this.createFloorPlan.bind(this);
+    this.editCurrentNode = this.editCurrentNode.bind(this);
   }
 
   furnishButton = () => {
@@ -62,13 +63,25 @@ export default class Main extends Component {
 
   newFPNodeButton() {
     let newArr = this.state.fPNodes;
-    const mostRecentNode = newArr[newArr.length - 1];
-    newArr.push({
-      x: mostRecentNode.x + 0.1,
-      y: mostRecentNode.y,
-      z: mostRecentNode.z,
-      key: mostRecentNode.key + 1
-    });
+
+    if (newArr.length) {
+      const mostRecentNode = newArr[newArr.length - 1];
+      newArr.push({
+        x: mostRecentNode.x + 0.1,
+        y: mostRecentNode.y,
+        z: mostRecentNode.z,
+        key: mostRecentNode.key + 1
+      });
+    }
+    else {
+      newArr.push({
+        x: 0,
+        y: 0,
+        z: 0,
+        key: 0
+      })
+    }
+
     this.setState({
       fPNodes: newArr
     });
@@ -86,7 +99,7 @@ export default class Main extends Component {
     const newNodes = this.state.fPNodes.map(node => {
       return { x: node.x, y: node.z };
     });
-    const { data } = await axios.post("/api/floorplans", {
+    const { data } = await axios.post(`${ngrokKey}/api/floorplans`, {
       coordinates: newNodes,
       userId: 1
     });
@@ -119,7 +132,7 @@ export default class Main extends Component {
             style={styles.arView}
             {...this.state.sharedProps}
             initialScene={{ scene: FloorPlanScreen }}
-            viroAppProps={{ nodes: this.state.fPNodes }}
+            viroAppProps={{ nodes: this.state.fPNodes, editCurrentNode: this.editCurrentNode }}
           />
         )}
 
@@ -178,6 +191,16 @@ export default class Main extends Component {
         </TouchableOpacity>
       </View>
     );
+  }
+
+  editCurrentNode(currentNode) {
+    let newArr = this.state.fPNodes
+    newArr.map(node => {
+      if (node.key === currentNode.key) {
+        node = {x: currentNode.x, y: currentNode.y, z: currentNode.z, key: node.key}
+      }
+    })
+    this.setState({fPNodes: newArr})
   }
 
   _exitViro() {
