@@ -27,6 +27,7 @@ export default class FloorPlanScreen extends Component {
     this._onInitialized = this._onInitialized.bind(this);
     this._onDrag = this._onDrag.bind(this);
     this.renderNode = this.renderNode.bind(this);
+    this.test = this.test.bind(this)
 
     // this._onClick = this._onClick.bind(this);
   }
@@ -74,20 +75,22 @@ export default class FloorPlanScreen extends Component {
     }
   }
   _onDrag(draggedToPosition, source) {
-    this.setState({
-      text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
-        draggedToPosition[1] * 10
-      )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
-    });
-  }
-  // _onClick(position, source) {
-  //   this.setState({
-  //     text: "clicked",
-  //     nodes: [
-  //       ...this.state.nodes,
-  //       { x: position[0] + .2, y: position[1], z: position[2] }
-  //     ]
-  //   });
+    this.props.sceneNavigator.viroAppProps.editCurrentNode({x: draggedToPosition[0], y: draggedToPosition[1], z: draggedToPosition[2], key: 1})
+    let object = {
+      x: draggedToPosition[0], y: draggedToPosition[1], z: draggedToPosition[2], key: 1
+    }
+    this.test(object)
+    // this.setState({
+    //   text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
+    //     draggedToPosition[1] * 10
+    //   )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
+    };
+    test (object) {
+      console.log(object)
+    }
+  _onClick(position, source) {
+    // this.props.sceneNavigator.viroAppProps.editCurrentNode({x: position, y: position, z: position, key: 1})
+  };
 
   renderNode(x, y, z, key) {
     return (
@@ -98,12 +101,6 @@ export default class FloorPlanScreen extends Component {
         onDrag={this._onDrag}
         onClick={this._onClick}
       >
-        {/* <ViroText
-          text={this.state.text}
-          scale={[0.3, 0.3, 0.3]}
-          position={[0, 0.4, 0]}
-          style={styles.helloWorldTextStyle}
-        /> */}
         <Viro3DObject
           source={require("../res/emoji_smile/emoji_smile.vrx")}
           resources={[
