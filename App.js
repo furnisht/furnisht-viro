@@ -5,6 +5,7 @@ import { Instructions } from "./js/components/Instructions";
 import { FurnitureScreen } from "./js/components/FurnitureScreen";
 import { key } from "./secrets";
 import { ngrokKey } from "./secrets";
+import axios from "axios";
 
 import FloorPlanScreen from "./js/components/FloorPlanScreenAR";
 
@@ -29,16 +30,11 @@ export default class Main extends Component {
       furnishScreen: false,
       floorPlanScreen: false,
       homeScreen: true,
-      fPNodes: [
-        { x: 0, y: 0, z: 1, key: 0 },
-        { x: 1, y: 0, z: 1, key: 1 },
-        { x: 1, y: 1, z: 1, key: 2 }
-      ]
+      fPNodes: [{ x: 0, y: 0, z: 1, key: 0 }]
     };
 
     this._exitViro = this._exitViro.bind(this);
     this.furnishButton = this.furnishButton.bind(this);
-    this.floorPlanButton = this.floorPlanButton.bind(this);
 
     this.homeScreenButtons = this.homeScreenButtons.bind(this);
     this.floorPlanScreenButtons = this.floorPlanScreenButtons.bind(this);
@@ -47,6 +43,7 @@ export default class Main extends Component {
     this.floorStateToggle = this.floorStateToggle.bind(this);
     this.newFPNodeButton = this.newFPNodeButton.bind(this);
     this.deleteFPNodeButton = this.deleteFPNodeButton.bind(this);
+    this.createFloorPlan = this.createFloorPlan.bind(this);
   }
 
   furnishButton = () => {
@@ -63,12 +60,17 @@ export default class Main extends Component {
     });
   };
 
-  newFPNodeButton(node) {
+  newFPNodeButton() {
+    let newArr = this.state.fPNodes;
+    const mostRecentNode = newArr[newArr.length - 1];
+    newArr.push({
+      x: mostRecentNode.x + 0.1,
+      y: mostRecentNode.y,
+      z: mostRecentNode.z,
+      key: mostRecentNode.key + 1
+    });
     this.setState({
-      fPNodes: [
-        ...this.state.fPNodes,
-        { x: node.x + 0.1, y: node.y, z: node.z, key: node.key + 1 }
-      ]
+      fPNodes: newArr
     });
   }
 
@@ -78,6 +80,17 @@ export default class Main extends Component {
     this.setState({
       fPNodes: newArr
     });
+  }
+
+  async createFloorPlan() {
+    const newNodes = this.state.fPNodes.map(node => {
+      return { x: node.x, y: node.z };
+    });
+    const { data } = await axios.post("/api/floorplans", {
+      coordinates: newNodes,
+      userId: 1
+    });
+    this.setState({ fPNodes: [{ x: 0, y: 0, z: 1, key: 0 }] });
   }
 
   render() {
@@ -154,17 +167,12 @@ export default class Main extends Component {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={this.createFloorPlan}>
           <Image source={require("./js/res/check-mark-button.png")} />
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text
-            style={styles.titleText}
-            // onPress={this.newFPNodeButton(
-            //   this.state.fPNodes[this.state.fPNodes.length - 1]
-            // )}
-          >
+          <Text style={styles.titleText} onPress={this.newFPNodeButton}>
             New Marker
           </Text>
         </TouchableOpacity>
