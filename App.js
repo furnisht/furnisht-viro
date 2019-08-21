@@ -4,6 +4,7 @@ import styles from "./styles";
 import { Instructions } from "./js/components/Instructions";
 import { FurnitureScreen } from "./js/components/FurnitureScreen";
 import { key } from "./secrets";
+import { ngrokKey } from "./secrets";
 import axios from "axios";
 
 import FloorPlanScreen from "./js/components/FloorPlanScreenAR";
@@ -11,7 +12,7 @@ import FloorPlanScreen from "./js/components/FloorPlanScreenAR";
 import { Overlay } from "react-native-elements";
 
 import { ViroARSceneNavigator } from "react-viro";
-//
+
 const sharedProps = {
   apiKey: key
 };
