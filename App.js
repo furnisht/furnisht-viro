@@ -45,6 +45,7 @@ export default class Main extends Component {
     this.deleteFPNodeButton = this.deleteFPNodeButton.bind(this);
     this.createFloorPlan = this.createFloorPlan.bind(this);
     this.editCurrentNode = this.editCurrentNode.bind(this);
+    this.getArea = this.getArea.bind(this);
   }
 
   furnishButton = () => {
@@ -161,6 +162,46 @@ export default class Main extends Component {
         </TouchableOpacity>
       </View>
     );
+  }
+
+  editCurrentNode(currentNode) {
+    let newArr = this.state.fPNodes;
+    let current = newArr.map(node => {
+      if (node.key === currentNode.key) {
+        node = {
+          x: currentNode.x,
+          y: currentNode.y,
+          z: currentNode.z,
+          key: node.key
+        };
+      }
+      return node;
+    });
+    this.setState({ fPNodes: current });
+  }
+
+  getDistances(pointsArr) {
+    let distances = [];
+    let j = pointsArr.length - 1;
+    for (let i = 0; i < pointsArr.length; i++) {
+      let xPart = Math.pow(pointsArr[i].x - pointsArr[j].x, 2);
+      let yPart = Math.pow(pointsArr[i].y - pointsArr[j].y, 2);
+      distances[i] = Math.sqrt(xPart+yPart);
+      j = i;
+    }
+    return distances
+  }
+
+  getArea(pointsArr, numPoints) {
+    let area = 0;
+    let j = numPoints - 1;
+    for (i = 0; i < numPoints; i++) {
+      area =
+        area +
+        (pointsArr[j].x + pointsArr[i].x) * (pointsArr[j].y - pointsArr[i].y);
+      j = i;
+    }
+    return Math.abs(area / 2);
   }
 
   _exitViro() {
