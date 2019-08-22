@@ -6,7 +6,7 @@ import { FurnitureScreen } from "./js/components/FurnitureScreen";
 import { key } from "./secrets";
 // import { ngrokKey } from "./secrets";
 // import axios from "axios";
-import { submitFPNodesThunk, addFPNode, undoFPNode } from "../store/floorplan";
+import { submitFPNodesThunk, addFPNode, undoFPNode } from "./js/store/floorplan";
 
 import FloorPlanScreen from "./js/components/FloorPlanScreenAR";
 
