@@ -1,5 +1,18 @@
 import { AppRegistry } from "react-native";
-import App from "./App.js";
+import Main from "./App.js";
+import React, { Component } from "react";
+import { Provider } from "react-redux";
+import store from "./js/store";
+
+export default class Root extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Main />
+      </Provider>
+    );
+  }
+}
 
 AppRegistry.registerComponent("Main", () => App);
 

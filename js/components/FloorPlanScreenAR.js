@@ -14,15 +14,12 @@ import {
   ViroNode,
   ViroAnimations
 } from "react-viro";
+import { editFPNode } from "../store/floorplan";
+import { connect } from "react-redux";
 
 export default class FloorPlanScreen extends Component {
   constructor() {
     super();
-    // Set initial state here
-    this.state = {
-      text: "Initializing AR Scene",
-      nodes: []
-    };
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
     this._onDrag = this._onDrag.bind(this);
@@ -77,15 +74,19 @@ export default class FloorPlanScreen extends Component {
     this.setState({
       text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
         draggedToPosition[1] * 10
-      )}, Z: ${Math.round(draggedToPosition[2] * 10)}`})
-    this.props.sceneNavigator.viroAppProps.editCurrentNode({x: draggedToPosition[0], y: draggedToPosition[1], z: draggedToPosition[2], key: this.state.nodes.length -1})
-    }
-
-
+      )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
+    });
+    this.props.editFPNode({
+      x: draggedToPosition[0],
+      y: draggedToPosition[1],
+      z: draggedToPosition[2],
+      key: this.props.fPNodes.length - 1
+    });
+  }
 
   _onClick(position, source) {
     // this.props.sceneNavigator.viroAppProps.editCurrentNode({x: position, y: position, z: position, key: 1})
-  };
+  }
 
   renderNode(x, y, z, key) {
     return (
@@ -135,4 +136,16 @@ ViroAnimations.registerAnimations({
     duration: 1000 //.25 seconds
   }
 });
-module.exports = FloorPlanScreen;
+
+const mapStateToProps = state => ({
+  fPNodes: state.fPNodes
+});
+
+const mapDispatchToProps = dispatch => ({
+  editFPNode: node => dispatch(editFPNode(node))
+});
+
+module.exports = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FloorPlanScreen);
