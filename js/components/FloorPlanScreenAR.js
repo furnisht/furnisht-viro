@@ -17,7 +17,7 @@ import {
 import { editFPNode } from "../store/floorplan";
 import { connect } from "react-redux";
 
-export default class FloorPlanScreen extends Component {
+class FloorPlanScreen extends Component {
   constructor() {
     super();
     // bind 'this' to functions
@@ -145,7 +145,7 @@ const mapDispatchToProps = dispatch => ({
   editFPNode: node => dispatch(editFPNode(node))
 });
 
-module.exports = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(FloorPlanScreen);
