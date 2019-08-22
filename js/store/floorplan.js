@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 import { AsyncStorage } from "react-native";
-import { ngrokKey } from "./secrets";
+import { ngrokKey } from "../../secrets";
 import  axios  from "axios";
 
 const SUBMITTED_FPNODES = "SUBMITTED_FPNODES";
@@ -9,7 +9,7 @@ const ADD_FPNODE = "ADD_FPNODE";
 const EDIT_FPNODE = "EDIT_FPNODE";
 
 const initialState = {
-  fPNodes: []
+  fPNodes: [{x:0, y:0, z: -1, key:0}]
 };
 
 export const editFPNode = node => {

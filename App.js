@@ -22,7 +22,7 @@ const sharedProps = {
 const InitialARScene = require("./js/components/FurnitureScreenAR");
 // var FloorPlanScreenAR = require("./js/components/FloorPlanScreenAR");
 
-export default class Main extends Component {
+class Main extends Component {
   constructor() {
     super();
 

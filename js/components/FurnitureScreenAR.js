@@ -16,7 +16,7 @@ import {
   ViroAnimations
 } from "react-viro";
 
-export default class FurnitureScreenAR extends Component {
+class FurnitureScreenAR extends Component {
   constructor() {
     super();
     // Set initial state here
@@ -130,4 +130,4 @@ export default class FurnitureScreenAR extends Component {
 //     duration: 1000 //.25 seconds
 //   }
 // });
-module.exports = FurnitureScreenAR;
+export default FurnitureScreenAR;
