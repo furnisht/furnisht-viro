@@ -27,9 +27,6 @@ export default class FloorPlanScreen extends Component {
     this._onInitialized = this._onInitialized.bind(this);
     this._onDrag = this._onDrag.bind(this);
     this.renderNode = this.renderNode.bind(this);
-    this.test = this.test.bind(this)
-
-    // this._onClick = this._onClick.bind(this);
   }
 
   render() {
@@ -45,6 +42,8 @@ export default class FloorPlanScreen extends Component {
           position={[0, -0.5, -1]}
           scale={[0.3, 0.3, 0.1]}
           materials={["grid"]}
+          dragType="FixedToWorld"
+        onDrag={this._onDrag}
           animation={{ name: "rotate", run: true, loop: true }}
         /> */}
         <ViroAmbientLight color={"#aaaaaa"} />
@@ -75,19 +74,15 @@ export default class FloorPlanScreen extends Component {
     }
   }
   _onDrag(draggedToPosition, source) {
-    this.props.sceneNavigator.viroAppProps.editCurrentNode({x: draggedToPosition[0], y: draggedToPosition[1], z: draggedToPosition[2], key: 1})
-    let object = {
-      x: draggedToPosition[0], y: draggedToPosition[1], z: draggedToPosition[2], key: 1
+    this.setState({
+      text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
+        draggedToPosition[1] * 10
+      )}, Z: ${Math.round(draggedToPosition[2] * 10)}`})
+    this.props.sceneNavigator.viroAppProps.editCurrentNode({x: draggedToPosition[0], y: draggedToPosition[1], z: draggedToPosition[2], key: this.state.nodes.length -1})
     }
-    this.test(object)
-    // this.setState({
-    //   text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
-    //     draggedToPosition[1] * 10
-    //   )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
-    };
-    test (object) {
-      console.log(object)
-    }
+
+
+
   _onClick(position, source) {
     // this.props.sceneNavigator.viroAppProps.editCurrentNode({x: position, y: position, z: position, key: 1})
   };
@@ -99,7 +94,6 @@ export default class FloorPlanScreen extends Component {
         key={key}
         dragType="FixedToWorld"
         onDrag={this._onDrag}
-        onClick={this._onClick}
       >
         <Viro3DObject
           source={require("../res/emoji_smile/emoji_smile.vrx")}
