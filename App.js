@@ -195,12 +195,13 @@ export default class Main extends Component {
 
   editCurrentNode(currentNode) {
     let newArr = this.state.fPNodes
-    newArr.map(node => {
+    let current = newArr.map(node => {
       if (node.key === currentNode.key) {
         node = {x: currentNode.x, y: currentNode.y, z: currentNode.z, key: node.key}
       }
+      return node
     })
-    this.setState({fPNodes: newArr})
+    this.setState({fPNodes: current})
   }
 
   _exitViro() {

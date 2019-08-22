@@ -38,6 +38,9 @@ export default class DefaultScreen extends Component {
           style={styles.helloWorldTextStyle}
         />
         <ViroAmbientLight color={"#aaaaaa"} />
+        <ViroBox>
+
+        </ViroBox>
         <ViroSpotLight
           innerAngle={5}
           outerAngle={90}
