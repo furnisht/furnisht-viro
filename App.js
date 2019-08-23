@@ -235,7 +235,7 @@ const mapDispatchToProps = dispatch => ({
   undoFPNode: () => dispatch(undoFPNode())
 });
 
-module.exports = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(Main);
