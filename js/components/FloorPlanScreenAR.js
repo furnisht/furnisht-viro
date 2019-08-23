@@ -199,7 +199,7 @@ export default class FloorPlanScreen extends Component {
         <ViroButton
           source={require("../res/check-mark-1.png")}
           tapSource={require("../res/check-mark-pressed.png")}
-          position={[0, -0.4, -0.5]}
+          position={[0, -0.5, -0.5]}
           height={0.1}
           width={0.1}
           transformBehaviors={["billboard"]}
