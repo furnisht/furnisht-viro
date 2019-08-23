@@ -18,9 +18,10 @@ router.get("/:userId", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const { coordinates } = req.body;
+    const { coordinates, userId } = req.body;
     const newFloorPlan = await FloorPlan.create({
-      coordinates
+      coordinates,
+      userId
     });
     res.json(newFloorPlan);
   } catch (error) {
