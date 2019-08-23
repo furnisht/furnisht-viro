@@ -13,7 +13,8 @@ import {
   ViroARPlaneSelector,
   ViroNode,
   ViroAnimations,
-  ViroButton
+  ViroButton,
+  ViroARCamera
 } from "react-viro";
 import { ngrokKey } from "../../secrets";
 import axios from "axios";
@@ -133,6 +134,13 @@ export default class FloorPlanScreen extends Component {
           position={[0, 0, 0.1]}
           scale={[0.2, 0.2, 0.2]}
           type='VRX'
+        />
+        <Viro3DObject
+          source={require("../res/arrow.obj")}
+          resources={[require("../res/arrow.mtl")]}
+          position={[0, 0.3, 0.1]}
+          scale={[0.2, 0.2, 0.2]}
+          type='OBJ'
         />
       </ViroNode>
     );
