@@ -18,14 +18,16 @@ import {
 import { ngrokKey } from "../../secrets";
 import axios from "axios";
 
-export default class FloorPlanScreen extends Component {
+class FloorPlanScreen extends Component {
   constructor() {
     super();
+
     // Set initial state here
     this.state = {
       text: "Initializing AR Scene",
       nodes: [{ x: 0, y: 0, z: -1, key: 0 }]
     };
+    
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
     this._onDrag = this._onDrag.bind(this);
@@ -239,4 +241,16 @@ ViroAnimations.registerAnimations({
     duration: 1000 //.25 seconds
   }
 });
-module.exports = FloorPlanScreen;
+
+const mapStateToProps = state => ({
+  fPNodes: state.fPNodes
+});
+
+const mapDispatchToProps = dispatch => ({
+  editFPNode: node => dispatch(editFPNode(node))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FloorPlanScreen);
