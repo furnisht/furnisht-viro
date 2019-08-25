@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import { Instructions } from "./js/components/Instructions";
 import { FurnitureScreen } from "./js/components/FurnitureScreen";
+import { SavedProjects } from "./js/components/SavedProjects";
 import { key, ngrokKey } from "./secrets";
 import axios from "axios";
 
@@ -27,6 +28,7 @@ export default class Main extends Component {
       navigatorType: "",
       sharedProps: sharedProps,
       furnishScreen: false,
+      projectScreen: false,
       floorPlanScreen: false,
       homeScreen: true,
       fPNodes: [{ x: 0, y: 0, z: 1, key: 0 }]
@@ -34,11 +36,14 @@ export default class Main extends Component {
 
     this._exitViro = this._exitViro.bind(this);
     this.furnishButton = this.furnishButton.bind(this);
+    this.projectButton = this.projectButton.bind(this);
 
     this.homeScreenButtons = this.homeScreenButtons.bind(this);
     this.floorPlanScreenButtons = this.floorPlanScreenButtons.bind(this);
+    this.projectButton = this.projectButton.bind(this);
 
     this.furnishStateToggle = this.furnishStateToggle.bind(this);
+    this.projectStateToggle = this.projectStateToggle.bind(this);
     this.floorStateToggle = this.floorStateToggle.bind(this);
     this.newFPNodeButton = this.newFPNodeButton.bind(this);
     this.deleteFPNodeButton = this.deleteFPNodeButton.bind(this);
@@ -50,6 +55,13 @@ export default class Main extends Component {
   furnishButton = () => {
     this.setState({
       furnishScreen: !this.state.furnishScreen,
+      homeScreen: false
+    });
+  };
+
+  projectButton = () => {
+    this.setState({
+      projectScreen: !this.state.projectScreen,
       homeScreen: false
     });
   };
@@ -126,6 +138,14 @@ export default class Main extends Component {
           />
         )}
 
+        {this.state.projectScreen && (
+          <ViroARSceneNavigator
+            style={styles.arView}
+            {...this.state.sharedProps}
+            initialScene={{ scene: InitialARScene }}
+          />
+        )}
+
         {this.state.floorPlanScreen && (
           <ViroARSceneNavigator
             style={styles.arView}
@@ -141,6 +161,9 @@ export default class Main extends Component {
         {this.state.floorPlanScreen && this.floorPlanScreenButtons()}
         {this.state.furnishScreen && (
           <FurnitureScreen toggleVisibility={this.furnishStateToggle} />
+        )}
+        {this.state.projectScreen && (
+          <SavedProjects toggleVisibility={this.projectStateToggle} />
         )}
         {this.state.furnishScreen && this.homeScreenButtons()}
         {this.state.homeScreen && this.homeScreenButtons()}
@@ -164,7 +187,9 @@ export default class Main extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={styles.titleText}>Project</Text>
+          <Text style={styles.titleText} onPress={this.projectButton}>
+            Projects
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -244,6 +269,13 @@ export default class Main extends Component {
   furnishStateToggle() {
     this.setState({
       furnishScreen: !this.state.furnishScreen,
+      homeScreen: !this.state.homeScreen
+    });
+  }
+
+  projectStateToggle() {
+    this.setState({
+      projectScreen: !this.state.projectScreen,
       homeScreen: !this.state.homeScreen
     });
   }

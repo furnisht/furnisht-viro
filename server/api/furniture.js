@@ -16,6 +16,18 @@ router.get("/:userId", async (req, res, next) => {
   }
 });
 
+router.get("/:userId/:roomName", async (req, res, next) => {
+  try {
+    const roomFurniture = await Furniture.getRoom(
+      req.params.userId,
+      req.params.roomName
+    );
+    res.send(roomFurniture);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post("/", async (req, res, next) => {
   try {
     const { type, dimensions, userId } = req.body;

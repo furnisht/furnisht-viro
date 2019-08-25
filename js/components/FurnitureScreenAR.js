@@ -1,7 +1,19 @@
 "use strict";
 import React, { Component } from "react";
 import styles from "../../styles";
-import { StyleSheet } from "react-native";
+import {
+  StyleSheet,
+  AppRegistry,
+  Text,
+  View,
+  Image,
+  Modal,
+  PixelRatio,
+  TouchableHighlight,
+  TouchableOpacity,
+  Picker
+} from "react-native";
+import { Overlay } from "react-native-elements";
 import {
   ViroARScene,
   ViroText,
@@ -44,7 +56,10 @@ class FurnitureScreenAR extends Component {
           }
         }
       ],
-      rotation: [0, 0.7, 0]
+      rotation: [0, 0.7, 0],
+      visibleChoice: false,
+      room: "Living Room"
+
       // nodes: [{ x: 0, y: 0, z: 1, key: 0 }]
     };
     // bind 'this' to functions
@@ -61,22 +76,67 @@ class FurnitureScreenAR extends Component {
     this.setState({ items: furniture.data });
   }
 
+  async chooseProject(userId, roomName) {
+    try {
+      let { data } = await axios.get(
+        `${ngrokKey}/api/furniture/${userId}/${roomName}`
+      );
+      this.setState({ items: data });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   _onRotate(rotateState, rotationFactor, source) {
     if (rotateState === 3) {
-      this.setState({
-        rotation: [0, rotationFactor, 0]
-      });
+      this.rotation = [0, rotationFactor, 0];
     }
   }
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        <ViroText
-          text={this.state.text}
-          scale={[0.5, 0.5, 0.5]}
-          position={[0, 0, -1]}
-          style={styles.helloWorldTextStyle}
-        />
+        {/* <Overlay
+          isVisible={this.state.visibleChoice}
+          overlayBackgroundColor="rgba(0,128,128, 0.9)"
+          fullScreen="true"
+          overlayStyle={{
+            position: "absolute",
+            flex: 1,
+            justifyContent: "space-between"
+          }}
+        >
+          <Text
+            style={{
+              width: "90%",
+              fontSize: 24,
+              fonWeight: "bold",
+              fontFamily: "arial"
+            }}
+          >
+            1. Select type of furniture:
+          </Text>
+          <Picker
+            selectedValue={this.state.room}
+            style={{
+              height: 44,
+              width: "100%",
+              alignSelf: "center"
+            }}
+            itemStyle={{ height: 44 }}
+            onValueChange={(value, idx) => this.setState({ room: value })}
+          >
+            <Picker.Item label="Living Room" value="livingroom" />
+            <Picker.Item label="Dining Room" value="diningroom" />
+            <Picker.Item label="Kitchen" value="kitchen" />
+            <Picker.Item label="Bedroom" value="bedroom" />
+          </Picker>
+          <TouchableOpacity
+            onPress={this.chooseProject(1, this.state.room)}
+            style={{ alignSelf: "center" }}
+          >
+            <Image source={require("../res/check-mark-1.png")} />
+          </TouchableOpacity>
+        </Overlay> */}
         {this.state.items &&
           this.state.items.map(item => {
             if (item.type === "Couch") {
@@ -112,6 +172,7 @@ class FurnitureScreenAR extends Component {
                   length={item.dimensions.y * 0.3048}
                   width={item.dimensions.z * 0.3048}
                   onRotate={this._onRotate}
+                  position={[0, 0, -1]}
                   materials={["table"]}
                   dragType="FixedToWorld"
                   onDrag={this._onDrag}
