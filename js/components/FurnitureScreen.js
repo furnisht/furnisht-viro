@@ -20,7 +20,8 @@ import {
   Icon,
   FormValidationMessage
 } from "react-native-elements";
-import Display from "react-native-display";
+import axios from "axios";
+import { ngrokKey } from "../../secrets";
 
 export class FurnitureScreen extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -34,7 +35,7 @@ export class FurnitureScreen extends React.Component {
       typeofItem: "cube"
     };
     this.onBack = this.onBack.bind(this);
-    //this.submitItem = this.submitItem.bind(this)
+    this.submitFurniture = this.submitFurniture.bind(this);
   }
 
   // //submitItem = () => {
@@ -44,14 +45,31 @@ export class FurnitureScreen extends React.Component {
     this.props.toggleVisibility();
   };
 
+  async submitFurniture() {
+    try {
+      await axios.post(`${ngrokKey}/api/furniture`, {
+        type: this.state.typeofItem,
+        dimensions: [
+          {
+            x: this.state.widthText,
+            y: this.state.heightText,
+            z: this.state.depthText
+          }
+        ]
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   render() {
     return (
       <Overlay
         isVisible={this.state.visible}
         overlayBackgroundColor="rgba(0,128,128, 0.5)"
         style={{
-          width: 450,
-          height: 450,
+          width: "auto",
+          height: "auto",
           marginBottom: 250,
           flex: 1,
           justifyContent: "space-between"
@@ -71,14 +89,14 @@ export class FurnitureScreen extends React.Component {
               style={{ marginRight: 290 }}
             />
           </TouchableOpacity>
-          <Text style={{ fontSize: 16, fontFamily: "arial" }}>
+          {/* <Text style={{ fontSize: 16, fontFamily: "arial" }}>
             Measure the dimensions of furniture you own:
           </Text>
           <TouchableOpacity onPress={this.onPress}>
             <Image source={require("../res/photo-camera.png")} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <Text style={{ fontSize: 16, fontFamily: "arial" }}>
-            OR input the dimensions manually (in feet):
+            Input the dimensions of your piece of furniture (in feet):
           </Text>
           <Picker
             selectedValue={this.state.typeofItem}

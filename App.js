@@ -3,8 +3,7 @@ import { Text, View, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import { Instructions } from "./js/components/Instructions";
 import { FurnitureScreen } from "./js/components/FurnitureScreen";
-import { key } from "./secrets";
-import { ngrokKey } from "./secrets";
+import { key, ngrokKey } from "./secrets";
 import axios from "axios";
 
 import FloorPlanScreen from "./js/components/FloorPlanScreenAR";
