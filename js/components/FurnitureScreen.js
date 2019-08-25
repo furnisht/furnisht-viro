@@ -32,7 +32,8 @@ export class FurnitureScreen extends React.Component {
       heightText: "3",
       depthText: "2.5",
       visible: true,
-      typeofItem: "cube"
+      typeofItem: "cube",
+      room: "Living Room"
     };
     this.onBack = this.onBack.bind(this);
     this.submitFurniture = this.submitFurniture.bind(this);
@@ -66,11 +67,10 @@ export class FurnitureScreen extends React.Component {
     return (
       <Overlay
         isVisible={this.state.visible}
-        overlayBackgroundColor="rgba(0,128,128, 0.5)"
-        style={{
-          width: "auto",
-          height: "auto",
-          marginBottom: 250,
+        overlayBackgroundColor="rgba(0,128,128, 0.9)"
+        fullScreen="true"
+        overlayStyle={{
+          position: "absolute",
           flex: 1,
           justifyContent: "space-between"
         }}
@@ -79,8 +79,7 @@ export class FurnitureScreen extends React.Component {
           style={{
             flex: 1,
             flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "center"
+            justifyContent: "space-between"
           }}
         >
           <TouchableOpacity onPress={this.onBack}>
@@ -95,12 +94,24 @@ export class FurnitureScreen extends React.Component {
           <TouchableOpacity onPress={this.onPress}>
             <Image source={require("../res/photo-camera.png")} />
           </TouchableOpacity> */}
-          <Text style={{ fontSize: 16, fontFamily: "arial" }}>
-            Input the dimensions of your piece of furniture (in feet):
+          <Text
+            style={{
+              width: "90%",
+              fontSize: 24,
+              fonWeight: "bold",
+              fontFamily: "arial"
+            }}
+          >
+            1. Select type of furniture:
           </Text>
           <Picker
             selectedValue={this.state.typeofItem}
-            style={{ height: 50, width: 100, marginBottom: 25 }}
+            style={{
+              height: 44,
+              width: "100%",
+              alignSelf: "center"
+            }}
+            itemStyle={{ height: 44 }}
             onValueChange={(value, idx) => this.setState({ typeofItem: value })}
           >
             <Picker.Item label="Couch" value="couch" />
@@ -108,24 +119,71 @@ export class FurnitureScreen extends React.Component {
             <Picker.Item label="Table" value="table" />
             <Picker.Item label="Other" value="cube" />
           </Picker>
-
-          <Input
-            onChangeText={widthText => this.setState({ widthText })}
-            value={this.state.widthText}
-            label="width"
-          />
-          <Input
-            onChangeText={heightText => this.setState({ heightText })}
-            value={this.state.heightText}
-            label="height"
-          />
-          <Input
-            onChangeText={depthText => this.setState({ depthText })}
-            value={this.state.depthText}
-            label="depth"
-          />
-          <TouchableOpacity onPress={this.submitFurniture}>
-            <Image source={require("../res/check-mark-button.png")} />
+          <Text
+            style={{
+              width: "90%",
+              fontSize: 24,
+              fonWeight: "bold",
+              fontFamily: "arial"
+            }}
+          >
+            2. Select the room which furniture will be in:
+          </Text>
+          <Picker
+            selectedValue={this.state.room}
+            style={{
+              height: 44,
+              width: "100%",
+              alignSelf: "center"
+            }}
+            itemStyle={{ height: 44 }}
+            onValueChange={(value, idx) => this.setState({ room: value })}
+          >
+            <Picker.Item label="Living Room" value="livingroom" />
+            <Picker.Item label="Bedroom" value="bedroom" />
+            <Picker.Item label="Kitchen" value="Kitchen" />
+            <Picker.Item label="Dining Room" value="diningroom" />
+            <Picker.Item label="Other" value="other" />
+          </Picker>
+          <View
+            style={{
+              marginBottom: 10,
+              marginLeft: 15,
+              marginRight: 15
+            }}
+          >
+            <Text
+              style={{
+                width: "80%",
+                fontSize: 24,
+                fonWeight: "bold",
+                fontFamily: "arial",
+                marginBottom: 15
+              }}
+            >
+              3. Input dimensions (in feet):
+            </Text>
+            <Input
+              onChangeText={widthText => this.setState({ widthText })}
+              value={this.state.widthText}
+              label="width"
+            />
+            <Input
+              onChangeText={heightText => this.setState({ heightText })}
+              value={this.state.heightText}
+              label="height"
+            />
+            <Input
+              onChangeText={depthText => this.setState({ depthText })}
+              value={this.state.depthText}
+              label="depth"
+            />
+          </View>
+          <TouchableOpacity
+            onPress={this.submitFurniture}
+            style={{ alignSelf: "center" }}
+          >
+            <Image source={require("../res/check-mark-1.png")} />
           </TouchableOpacity>
         </View>
       </Overlay>

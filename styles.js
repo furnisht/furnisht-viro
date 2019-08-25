@@ -80,11 +80,17 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     flex: 1,
-    marginTop: 40,
-    marginBottom: 40,
+    marginTop: 15,
+    marginBottom: 15,
     marginLeft: 15,
     marginRight: 15,
     backgroundColor: "white"
+  },
+  furniturechoices: {
+    flex: 1,
+    flexDirection: "column",
+    margin: 15,
+    justifyContent: "space-between"
   },
   buttonContainer: {
     paddingBottom: 0
