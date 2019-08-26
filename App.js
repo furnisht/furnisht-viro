@@ -47,14 +47,14 @@ export default class Main extends Component {
     this.editCurrentNode = this.editCurrentNode.bind(this);
     this.getArea = this.getArea.bind(this);
   }
-
+  //toggle furnish screen
   furnishButton = () => {
     this.setState({
       furnishScreen: !this.state.furnishScreen,
       homeScreen: false
     });
   };
-
+  //toggle floor plan screen
   floorPlanButton = () => {
     this.setState({
       floorPlanScreen: !this.state.floorPlanScreen,
@@ -148,7 +148,7 @@ export default class Main extends Component {
       </View>
     );
   }
-
+  // relocate functions and delete useless stufffffff
   homeScreenButtons() {
     return (
       <View style={styles.navBar}>
@@ -173,24 +173,9 @@ export default class Main extends Component {
   //undo button needs onPress, onPress={this.submitFloorPlan}, onPress={this.renderNode()}
   floorPlanScreenButtons() {
     return (
-      <View style={styles.navBar}>
+      <View style={styles.floorPlanNav}>
         <TouchableOpacity onPress={this.floorStateToggle}>
           <Image source={require("./js/res/go-back-left-arrow.png")} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.titleText} onPress={this.deleteFPNodeButton}>
-            Undo
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={this.createFloorPlan}>
-          <Image source={require("./js/res/check-mark-button.png")} />
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.titleText} onPress={this.newFPNodeButton}>
-            New Marker
-          </Text>
         </TouchableOpacity>
       </View>
     );
