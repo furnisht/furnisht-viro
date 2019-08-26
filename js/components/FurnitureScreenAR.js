@@ -70,11 +70,7 @@ class FurnitureScreenAR extends Component {
     this._onRotate = this._onRotate.bind(this);
   }
   async componentDidMount() {
-    const furniture = await axios.get(`${ngrokKey}/api/furniture/`, {
-      params: {
-        userId: 1
-      }
-    });
+    const furniture = await axios.get(`${ngrokKey}/api/furniture/1`);
     this.setState({ items: furniture.data });
   }
 
@@ -97,48 +93,6 @@ class FurnitureScreenAR extends Component {
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        {/* <Overlay
-          isVisible={this.state.visibleChoice}
-          overlayBackgroundColor="rgba(0,128,128, 0.9)"
-          fullScreen="true"
-          overlayStyle={{
-            position: "absolute",
-            flex: 1,
-            justifyContent: "space-between"
-          }}
-        >
-          <Text
-            style={{
-              width: "90%",
-              fontSize: 24,
-              fonWeight: "bold",
-              fontFamily: "arial"
-            }}
-          >
-            1. Select type of furniture:
-          </Text>
-          <Picker
-            selectedValue={this.state.room}
-            style={{
-              height: 44,
-              width: "100%",
-              alignSelf: "center"
-            }}
-            itemStyle={{ height: 44 }}
-            onValueChange={(value, idx) => this.setState({ room: value })}
-          >
-            <Picker.Item label="Living Room" value="livingroom" />
-            <Picker.Item label="Dining Room" value="diningroom" />
-            <Picker.Item label="Kitchen" value="kitchen" />
-            <Picker.Item label="Bedroom" value="bedroom" />
-          </Picker>
-          <TouchableOpacity
-            onPress={this.chooseProject(1, this.state.room)}
-            style={{ alignSelf: "center" }}
-          >
-            <Image source={require("../res/check-mark-1.png")} />
-          </TouchableOpacity>
-        </Overlay> */}
         {this.state.items &&
           this.state.items.map(item => {
             if (item.type === "Couch") {
@@ -147,25 +101,15 @@ class FurnitureScreenAR extends Component {
                   height={item.dimensions.x * 0.3048}
                   length={item.dimensions.y * 0.3048}
                   width={item.dimensions.z * 0.3048}
+                  // height={(item.dimensions.x * 0.3048) / 10}
+                  // length={(item.dimensions.y * 0.3048) / 10}
+                  // width={(item.dimensions.z * 0.3048) / 10}
                   onRotate={this._onRotate}
                   materials={["couch"]}
                   dragType="FixedToWorld"
                   onDrag={this._onDrag}
                   rotation={this.state.rotation}
                 />
-                // <Viro3DObject
-                //   source={require("../res/couch.obj")}
-                //   height={item.dimensions.x * 0.3048}
-                //   length={item.dimensions.y * 0.3048}
-                //   width={item.dimensions.z * 0.3048}
-                //   onRotate={this._onRotate}
-                //   scale={[1, 1, 1]}
-                //   materials={["couch"]}
-                //   dragType="FixedToWorld"
-                //   rotation={this.state.rotation}
-                //   onDrag={this._onDrag}
-                //   type="OBJ"
-                // />
               );
             } else if (item.type === "Table") {
               return (
@@ -173,6 +117,9 @@ class FurnitureScreenAR extends Component {
                   height={item.dimensions.x * 0.3048}
                   length={item.dimensions.y * 0.3048}
                   width={item.dimensions.z * 0.3048}
+                  // height={(item.dimensions.x * 0.3048) / 10}
+                  // length={(item.dimensions.y * 0.3048) / 10}
+                  // width={(item.dimensions.z * 0.3048) / 10}
                   onRotate={this._onRotate}
                   position={[0, 0, -1]}
                   materials={["table"]}
@@ -187,6 +134,9 @@ class FurnitureScreenAR extends Component {
                   height={item.dimensions.x * 0.3048}
                   length={item.dimensions.y * 0.3048}
                   width={item.dimensions.z * 0.3048}
+                  // height={(item.dimensions.x * 0.3048) / 10}
+                  // length={(item.dimensions.y * 0.3048) / 10}
+                  // width={(item.dimensions.z * 0.3048) / 10}
                   onRotate={this._onRotate}
                   materials={["table"]}
                   dragType="FixedToWorld"
@@ -200,6 +150,9 @@ class FurnitureScreenAR extends Component {
                   height={item.dimensions.x * 0.3048}
                   length={item.dimensions.y * 0.3048}
                   width={item.dimensions.z * 0.3048}
+                  // height={(item.dimensions.x * 0.3048) / 10}
+                  // length={(item.dimensions.y * 0.3048) / 10}
+                  // width={(item.dimensions.z * 0.3048) / 10}
                   onRotate={this._onRotate}
                   materials={["table"]}
                   dragType="FixedToWorld"

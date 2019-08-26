@@ -32,7 +32,7 @@ export class FurnitureScreen extends React.Component {
       heightText: "3",
       depthText: "2.5",
       visible: true,
-      typeofItem: "cube",
+      typeofItem: "Couch",
       room: "Living Room"
     };
     this.onBack = this.onBack.bind(this);
@@ -56,7 +56,8 @@ export class FurnitureScreen extends React.Component {
             y: this.state.heightText,
             z: this.state.depthText
           }
-        ]
+        ],
+        userId: 1
       });
     } catch (err) {
       console.error(err);
@@ -68,7 +69,7 @@ export class FurnitureScreen extends React.Component {
       <Overlay
         isVisible={this.state.visible}
         overlayBackgroundColor="rgba(0,128,128, 0.9)"
-        fullScreen="true"
+        fullScreen={true}
         overlayStyle={{
           position: "absolute",
           flex: 1,
@@ -98,7 +99,6 @@ export class FurnitureScreen extends React.Component {
             style={{
               width: "90%",
               fontSize: 24,
-              fonWeight: "bold",
               fontFamily: "arial"
             }}
           >
@@ -123,7 +123,6 @@ export class FurnitureScreen extends React.Component {
             style={{
               width: "90%",
               fontSize: 24,
-              fonWeight: "bold",
               fontFamily: "arial"
             }}
           >
@@ -156,7 +155,6 @@ export class FurnitureScreen extends React.Component {
               style={{
                 width: "80%",
                 fontSize: 24,
-                fonWeight: "bold",
                 fontFamily: "arial",
                 marginBottom: 15
               }}

@@ -31,9 +31,12 @@ router.get("/:userId/:roomName", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     const { type, dimensions, userId } = req.body;
+
     const newFurniture = await Furniture.create({
       type,
-      dimensions,
+      dimensions: [
+        { x: +dimensions[0].x, y: +dimensions[0].y, z: +dimensions[0].z }
+      ],
       userId
     });
     res.json(newFurniture);
