@@ -14,7 +14,8 @@ import {
   ViroNode,
   ViroAnimations,
   ViroButton,
-  ViroARCamera
+  ViroARCamera,
+  ViroPolygon
 } from "react-viro";
 import { ngrokKey } from "../../secrets";
 import axios from "axios";
@@ -25,7 +26,8 @@ export default class FloorPlanScreen extends Component {
     // Set initial state here
     this.state = {
       text: "Initializing AR Scene",
-      nodes: [{ x: 0, y: 0, z: -1, key: 0 }]
+      nodes: [{ x: 0, y: 0, z: -1, key: 0 }],
+      vertices: []
     };
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
@@ -46,7 +48,7 @@ export default class FloorPlanScreen extends Component {
       // Handle loss of tracking
     }
   }
-
+  // which is king??
   _onButtonTap() {
     if (this.state.nodes.length > 0) {
       this.setState({
@@ -63,7 +65,7 @@ export default class FloorPlanScreen extends Component {
       });
     }
   }
-
+  // which is king??
   addNode(position, source) {
     if (this.state.nodes.length > 0) {
       this.setState({
@@ -98,6 +100,10 @@ export default class FloorPlanScreen extends Component {
     this.setState({ nodes: currentArr });
   }
 
+  // _onRotate(rotateState, rotationFactor, source){
+  //   if(rotateS)
+  // }
+
   deleteNode() {
     let newNodes = [...this.state.nodes];
     newNodes.pop();
@@ -107,9 +113,12 @@ export default class FloorPlanScreen extends Component {
   }
 
   async submitFloorPlan() {
+    let initialVert = [];
     const submitNodes = this.state.nodes.map(node => {
+      initialVert.push([node.x / 10, node.z / 10]);
       return { x: node.x, y: node.z };
     });
+    this.setState({ vertices: initialVert });
     await axios.post(`${ngrokKey}/api/floorplans`, {
       coordinates: submitNodes,
       userId: 1
@@ -122,25 +131,15 @@ export default class FloorPlanScreen extends Component {
       <ViroNode
         position={[x, y, z]}
         key={key}
-        dragType='FixedToWorld'
-        onDrag={this._onDrag}>
-        <Viro3DObject
-          source={require("../res/emoji_smile/emoji_smile.vrx")}
-          resources={[
-            require("../res/emoji_smile/emoji_smile_diffuse.png"),
-            require("../res/emoji_smile/emoji_smile_normal.png"),
-            require("../res/emoji_smile/emoji_smile_specular.png")
-          ]}
-          position={[0, 0, 0.1]}
-          scale={[0.2, 0.2, 0.2]}
-          type='VRX'
-        />
+        dragType="FixedToWorld"
+        onDrag={this._onDrag}
+      >
         <Viro3DObject
           source={require("../res/arrow.obj")}
           resources={[require("../res/arrow.mtl")]}
-          position={[0, 0.3, 0.1]}
+          position={[0, 0, 0.1]}
           scale={[0.2, 0.2, 0.2]}
-          type='OBJ'
+          type="OBJ"
         />
       </ViroNode>
     );
@@ -160,60 +159,67 @@ export default class FloorPlanScreen extends Component {
           outerAngle={90}
           direction={[0, -1, -0.2]}
           position={[0, 3, 1]}
-          color='#ffffff'
+          color="#ffffff"
           castsShadow={true}
         />
-        <ViroText
-          text='New Node'
-          scale={[0.2, 0.2, 0.2]}
-          position={[0, 0.1, -0.5]}
-          style={styles.helloWorldTextStyle}
-          transformBehaviors={["billboard"]}
-        />
+
+        {/* <ViroText
+            text="New Node"
+            scale={[0.1, 0.1, 0.1]}
+            position={[0, 0.1, -0.5]}
+            style={styles.helloWorldTextStyle}
+            transformBehaviors={["billboard"]}
+          /> */}
         <ViroButton
-          source={require("../res/check-mark-1.png")}
-          tapSource={require("../res/check-mark-pressed.png")}
-          position={[0, 0, -0.5]}
+          source={require("../res/plus.png")}
+          tapSource={require("../res/plus-click.png")}
+          position={[0, 0.2, -0.5]}
           height={0.1}
           width={0.1}
-          transformBehaviors={["billboard"]}
           onTap={this._onButtonTap}
           onClick={this.addNode}
         />
-        <ViroText
-          text='Undo'
-          scale={[0.2, 0.2, 0.2]}
-          position={[0, -0.1, -0.5]}
-          style={styles.helloWorldTextStyle}
-          transformBehaviors={["billboard"]}
-        />
+        {/* <ViroText
+            text="Undo"
+            scale={[0.1, 0.1, 0.1]}
+            position={[0, -0.1, -0.5]}
+            style={styles.helloWorldTextStyle}
+            transformBehaviors={["billboard"]}
+          /> */}
         <ViroButton
-          source={require("../res/check-mark-1.png")}
-          tapSource={require("../res/check-mark-pressed.png")}
-          position={[0, -0.2, -0.5]}
+          source={require("../res/minus.png")}
+          tapSource={require("../res/minus-click.png")}
+          position={[0, 0, -0.5]}
           height={0.1}
           width={0.1}
-          transformBehaviors={["billboard"]}
           onTap={this._onButtonTap}
           onClick={this.deleteNode}
         />
-        <ViroText
-          text='Submit Floor Plan'
-          scale={[0.2, 0.2, 0.2]}
-          position={[0, -0.3, -0.5]}
-          style={styles.helloWorldTextStyle}
-          transformBehaviors={["billboard"]}
-        />
+        {/* <ViroText
+            text="Submit Floor Plan"
+            scale={[0.1, 0.1, 0.1]}
+            position={[0, -0.3, -0.5]}
+            style={styles.helloWorldTextStyle}
+            transformBehaviors={["billboard"]}
+          /> */}
         <ViroButton
-          source={require("../res/check-mark-1.png")}
-          tapSource={require("../res/check-mark-pressed.png")}
-          position={[0, -0.5, -0.5]}
+          source={require("../res/check.png")}
+          tapSource={require("../res/check-click.png")}
+          position={[0, -0.2, -0.5]}
           height={0.1}
           width={0.1}
-          transformBehaviors={["billboard"]}
           onTap={this._onButtonTap}
           onClick={this.submitFloorPlan}
         />
+
+        {!!this.state.vertices.length && (
+          <ViroPolygon
+            rotation={[-90, 0, 0]}
+            position={[0, 0, 0]}
+            vertices={this.state.vertices}
+            materials={"grid"}
+          />
+        )}
         {this.state.nodes &&
           this.state.nodes.map((node, idx) => {
             return this.renderNode(node.x, node.y, node.z, idx);
@@ -234,7 +240,7 @@ var styles = StyleSheet.create({
 });
 ViroMaterials.createMaterials({
   grid: {
-    diffuseTexture: require("../res/grid_bg.jpg")
+    diffuseTexture: require("../res/blueprint.png")
   }
 });
 ViroAnimations.registerAnimations({

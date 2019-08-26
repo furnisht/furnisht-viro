@@ -44,6 +44,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#fff"
   },
+  floorPlanNav: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    position: "absolute",
+    left: -150,
+    right: 150,
+    top: 30
+  },
   navBar: {
     flex: 1,
     flexDirection: "row",
