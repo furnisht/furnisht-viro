@@ -39,6 +39,7 @@ class FurnitureScreenAR extends Component {
       items: [
         {
           type: "Couch",
+          room: "Living Room",
           name: "living room couch",
           dimensions: {
             x: 5,
@@ -48,6 +49,7 @@ class FurnitureScreenAR extends Component {
         },
         {
           type: "Bed",
+          room: "Bedroom",
           name: "master bed",
           dimensions: {
             x: 2,
@@ -68,7 +70,7 @@ class FurnitureScreenAR extends Component {
     this._onRotate = this._onRotate.bind(this);
   }
   async componentDidMount() {
-    const furniture = await axios.get(`${ngrokKey}/api/furniture`, {
+    const furniture = await axios.get(`${ngrokKey}/api/furniture/`, {
       params: {
         userId: 1
       }
@@ -231,7 +233,10 @@ class FurnitureScreenAR extends Component {
   }
   _onInitialized(state, reason) {
     if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ text: "furniture screen AR" });
+      this.setState({
+        text: "furniture screen AR",
+        room: this.props.arSceneNavigator.viroAppProps.room
+      });
     } else if (state == ViroConstants.TRACKING_NONE) {
       // Handle loss of tracking
     }

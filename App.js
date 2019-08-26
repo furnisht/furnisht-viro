@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image, Picker } from "react-native";
 import styles from "./styles";
 import { Instructions } from "./js/components/Instructions";
 import { FurnitureScreen } from "./js/components/FurnitureScreen";
@@ -31,7 +31,8 @@ export default class Main extends Component {
       projectScreen: false,
       floorPlanScreen: false,
       homeScreen: true,
-      fPNodes: [{ x: 0, y: 0, z: 1, key: 0 }]
+      fPNodes: [{ x: 0, y: 0, z: 1, key: 0 }],
+      room: "Bedroom"
     };
 
     this._exitViro = this._exitViro.bind(this);
@@ -143,6 +144,9 @@ export default class Main extends Component {
             style={styles.arView}
             {...this.state.sharedProps}
             initialScene={{ scene: InitialARScene }}
+            viroAppProps={{
+              room: this.state.room
+            }}
           />
         )}
 
@@ -163,7 +167,57 @@ export default class Main extends Component {
           <FurnitureScreen toggleVisibility={this.furnishStateToggle} />
         )}
         {this.state.projectScreen && (
-          <SavedProjects toggleVisibility={this.projectStateToggle} />
+          <Overlay
+            isVisible={this.state.projectScreen}
+            overlayBackgroundColor="rgba(160, 87, 162, 0.9)"
+            overlayStyle={{
+              position: "absolute",
+              flex: 1,
+              justifyContent: "space-between"
+            }}
+          >
+            <TouchableOpacity onPress={this.projectStateToggle}>
+              <Image
+                source={require("./js/res/go-back-left-arrow.png")}
+                style={{ marginRight: 290 }}
+              />
+            </TouchableOpacity>
+
+            <Text
+              style={{
+                width: "90%",
+                fontSize: 24,
+                fonWeight: "bold",
+                fontFamily: "arial",
+                alignSelf: "center"
+              }}
+            >
+              Which project would you like to view?
+            </Text>
+            <Picker
+              selectedValue={this.state.room}
+              style={{
+                height: 44,
+                width: "100%",
+                alignSelf: "center",
+                marginBottom: 30
+              }}
+              itemStyle={{ height: 44 }}
+              onValueChange={(value, idx) => this.setState({ room: value })}
+            >
+              <Picker.Item label="Living Room" value="livingroom" />
+              <Picker.Item label="Bedroom" value="bedroom" />
+              <Picker.Item label="Kitchen" value="Kitchen" />
+              <Picker.Item label="Dining Room" value="diningroom" />
+              <Picker.Item label="Other" value="other" />
+            </Picker>
+            <TouchableOpacity
+              // onPress={this.chooseProject(1, this.state.room)}
+              style={{ alignSelf: "center" }}
+            >
+              <Image source={require("./js/res/check-mark-1.png")} />
+            </TouchableOpacity>
+          </Overlay>
         )}
         {this.state.furnishScreen && this.homeScreenButtons()}
         {this.state.homeScreen && this.homeScreenButtons()}
