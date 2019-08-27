@@ -29,25 +29,20 @@ export default class Main extends Component {
       sharedProps: sharedProps,
       furnishScreen: false,
       floorPlanScreen: false,
-      homeScreen: true,
-      fPNodes: [{ x: 0, y: 0, z: 1, key: 0 }]
+      homeScreen: true
     };
 
     this._exitViro = this._exitViro.bind(this);
-    this.furnishButton = this.furnishButton.bind(this);
+    this.furnishOverlay = this.furnishOverlay.bind(this);
 
     this.homeScreenButtons = this.homeScreenButtons.bind(this);
     this.floorPlanScreenButtons = this.floorPlanScreenButtons.bind(this);
 
     this.furnishStateToggle = this.furnishStateToggle.bind(this);
     this.floorStateToggle = this.floorStateToggle.bind(this);
-    this.newFPNodeButton = this.newFPNodeButton.bind(this);
-    this.deleteFPNodeButton = this.deleteFPNodeButton.bind(this);
-    this.createFloorPlan = this.createFloorPlan.bind(this);
-    this.editCurrentNode = this.editCurrentNode.bind(this);
   }
   //toggle furnish screen
-  furnishButton = () => {
+  furnishOverlay = () => {
     this.setState({
       furnishScreen: !this.state.furnishScreen,
       homeScreen: false
@@ -61,48 +56,56 @@ export default class Main extends Component {
     });
   };
 
-  newFPNodeButton() {
-    let newArr = this.state.fPNodes;
+  homeScreenButtons() {
+    return (
+      <View style={styles.navBar}>
+        <TouchableOpacity>
+          <Text style={styles.titleText} onPress={this.floorPlanButton}>
+            Floor Plan
+          </Text>
+        </TouchableOpacity>
 
-    if (newArr.length) {
-      const mostRecentNode = newArr[newArr.length - 1];
-      newArr.push({
-        x: mostRecentNode.x + 0.1,
-        y: mostRecentNode.y,
-        z: mostRecentNode.z,
-        key: mostRecentNode.key + 1
-      });
-    } else {
-      newArr.push({
-        x: 0,
-        y: 0,
-        z: 0,
-        key: 0
-      });
-    }
+        <TouchableOpacity>
+          <Text style={styles.titleText} onPress={this.furnishOverlay}>
+            Furnish
+          </Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity>
+          <Text style={styles.titleText}>Project</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  floorPlanScreenButtons() {
+    return (
+      <View style={styles.floorPlanNav}>
+        <TouchableOpacity onPress={this.floorStateToggle}>
+          <Image source={require("./js/res/go-back-left-arrow.png")} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  _exitViro() {
     this.setState({
-      fPNodes: newArr
+      navigatorType: UNSET
     });
   }
 
-  deleteFPNodeButton() {
-    let newArr = this.state.fPNodes;
-    newArr.pop();
+  furnishStateToggle() {
     this.setState({
-      fPNodes: newArr
+      furnishScreen: !this.state.furnishScreen,
+      homeScreen: !this.state.homeScreen
     });
   }
 
-  async createFloorPlan() {
-    const newNodes = this.state.fPNodes.map(node => {
-      return { x: node.x, y: node.z };
+  floorStateToggle() {
+    this.setState({
+      floorPlanScreen: !this.state.floorPlanScreen,
+      homeScreen: !this.state.homeScreen
     });
-    const { data } = await axios.post(`${ngrokKey}/api/floorplans`, {
-      coordinates: newNodes,
-      userId: 1
-    });
-    this.setState({ fPNodes: [{ x: 0, y: 0, z: 1, key: 0 }] });
   }
 
   render() {
@@ -146,85 +149,5 @@ export default class Main extends Component {
         {this.state.homeScreen && this.homeScreenButtons()}
       </View>
     );
-  }
-  // relocate functions and delete useless stufffffff
-  homeScreenButtons() {
-    return (
-      <View style={styles.navBar}>
-        <TouchableOpacity>
-          <Text style={styles.titleText} onPress={this.floorPlanButton}>
-            Floor Plan
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.titleText} onPress={this.furnishButton}>
-            Furnish
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.titleText}>Project</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-  //undo button needs onPress, onPress={this.submitFloorPlan}, onPress={this.renderNode()}
-  floorPlanScreenButtons() {
-    return (
-      <View style={styles.floorPlanNav}>
-        <TouchableOpacity onPress={this.floorStateToggle}>
-          <Image source={require("./js/res/go-back-left-arrow.png")} />
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  editCurrentNode(currentNode) {
-    let newArr = this.state.fPNodes;
-    let current = newArr.map(node => {
-      if (node.key === currentNode.key) {
-        node = {
-          x: currentNode.x,
-          y: currentNode.y,
-          z: currentNode.z,
-          key: node.key
-        };
-      }
-      return node;
-    });
-    this.setState({ fPNodes: current });
-  }
-
-  getDistances(pointsArr) {
-    let distances = [];
-    let j = pointsArr.length - 1;
-    for (let i = 0; i < pointsArr.length; i++) {
-      let xPart = Math.pow(pointsArr[i].x - pointsArr[j].x, 2);
-      let yPart = Math.pow(pointsArr[i].y - pointsArr[j].y, 2);
-      distances[i] = Math.sqrt(xPart + yPart);
-      j = i;
-    }
-    return distances;
-  }
-
-  _exitViro() {
-    this.setState({
-      navigatorType: UNSET
-    });
-  }
-
-  furnishStateToggle() {
-    this.setState({
-      furnishScreen: !this.state.furnishScreen,
-      homeScreen: !this.state.homeScreen
-    });
-  }
-
-  floorStateToggle() {
-    this.setState({
-      floorPlanScreen: !this.state.floorPlanScreen,
-      homeScreen: !this.state.homeScreen
-    });
   }
 }

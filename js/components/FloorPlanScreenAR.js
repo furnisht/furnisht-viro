@@ -205,8 +205,8 @@ export default class FloorPlanScreen extends Component {
         />
 
         <ViroButton
-          source={require("../res/check.png")}
-          tapSource={require("../res/check-click.png")}
+          source={require("../res/check-mark-button.png")}
+          tapSource={require("../res/check-click-black.png")}
           position={[0, -0.2, -0.5]}
           height={0.1}
           width={0.1}

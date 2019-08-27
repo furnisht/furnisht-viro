@@ -1,7 +1,19 @@
 "use strict";
 import React, { Component } from "react";
 import styles from "../../styles";
-import { StyleSheet } from "react-native";
+import {
+  StyleSheet,
+  AppRegistry,
+  Text,
+  View,
+  Image,
+  Modal,
+  PixelRatio,
+  TouchableHighlight,
+  TouchableOpacity,
+  Picker
+} from "react-native";
+import { Overlay } from "react-native-elements";
 import {
   ViroARScene,
   ViroText,
@@ -15,35 +27,143 @@ import {
   ViroNode,
   ViroAnimations
 } from "react-viro";
+import axios from "axios";
+import { ngrokKey } from "../../secrets";
 
 export default class FurnitureScreenAR extends Component {
   constructor() {
     super();
-    // Set initial state here
     this.state = {
-      text: "Initializing AR..."
-      // nodes: [{ x: 0, y: 0, z: 1, key: 0 }]
+      text: "Loading Furniture Screen",
+      items: [
+        // {
+        //   type: "Couch",
+        //   name: "living room couch",
+        //   dimensions: {
+        //     x: 6,
+        //     y: 2,
+        //     z: 2
+        //   }
+        // },
+        // {
+        //   type: "Bed",
+        //   name: "master bed",
+        //   dimensions: {
+        //     x: 2,
+        //     y: 4,
+        //     z: 2
+        //   }
+        // }
+      ],
+      rotation: [0, 0.7, 0],
+      // visibleChoice: false (for overlay, might not need)
     };
-    // bind 'this' to functions
+
     this._onInitialized = this._onInitialized.bind(this);
-    // this._onDrag = this._onDrag.bind(this);
-    // this._onClick = this._onClick.bind(this);
+    this._onDrag = this._onDrag.bind(this);
+    // this._onRotate = this._onRotate.bind(this);
   }
+
+  async componentDidMount() {
+    const furniture = await axios.get(`${ngrokKey}/api/furniture/1`);
+    this.setState({ items: furniture.data });
+  }
+
+  // _onRotate(rotateState, rotationFactor, source) {
+  //   if (rotateState === 3) {
+  //     this.rotation = [0, rotationFactor, 0];
+  //   }
+  // }
+
+
+  _onDrag(draggedToPosition, source) {
+    // this.setState({
+    //   text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
+    //     draggedToPosition[1] * 10
+    //   )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
+    // });
+  }
+
+  _onInitialized(state, reason) {
+    if (state == ViroConstants.TRACKING_NORMAL) {
+      this.setState({ text:"furniture screen AR" });
+    } else if (state == ViroConstants.TRACKING_NONE) {
+      // Handle loss of tracking
+    }
+  }
+
   render() {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
-        <ViroText
-          text={this.state.text}
-          scale={[0.5, 0.5, 0.5]}
-          position={[0, 0, -1]}
-          style={styles.helloWorldTextStyle}
-        />
-        {/* <ViroBox
-          position={[0, -0.5, -1]}
-          scale={[0.3, 0.3, 0.1]}
-          materials={["grid"]}
-          animation={{ name: "rotate", run: true, loop: true }}
-        /> */}
+        {this.state.items &&
+          this.state.items.map(item => {
+            if (item.type === "Couch") {
+              return (
+                <ViroBox
+                  height={item.dimensions.x * 0.3048}
+                  length={item.dimensions.y * 0.3048}
+                  width={item.dimensions.z * 0.3048}
+                  // height={(item.dimensions.x * 0.3048) / 10}
+                  // length={(item.dimensions.y * 0.3048) / 10}
+                  // width={(item.dimensions.z * 0.3048) / 10}
+                  // onRotate={this._onRotate}
+                  materials={["couch"]}
+                  dragType="FixedToWorld"
+                  onDrag={this._onDrag}
+                  // rotation={this.state.rotation}
+                />
+              );
+            } else if (item.type === "Table") {
+              return (
+                <ViroBox
+                  height={item.dimensions.x * 0.3048}
+                  length={item.dimensions.y * 0.3048}
+                  width={item.dimensions.z * 0.3048}
+                  // height={(item.dimensions.x * 0.3048) / 10}
+                  // length={(item.dimensions.y * 0.3048) / 10}
+                  // width={(item.dimensions.z * 0.3048) / 10}
+                  // onRotate={this._onRotate}
+                  position={[0, 0, -1]}
+                  materials={["table"]}
+                  dragType="FixedToWorld"
+                  onDrag={this._onDrag}
+                  // rotation={this.state.rotation}
+                />
+              );
+            } else if (item.type === "Bed") {
+              return (
+                <ViroBox
+                  height={item.dimensions.x * 0.3048}
+                  length={item.dimensions.y * 0.3048}
+                  width={item.dimensions.z * 0.3048}
+                  // height={(item.dimensions.x * 0.3048) / 10}
+                  // length={(item.dimensions.y * 0.3048) / 10}
+                  // width={(item.dimensions.z * 0.3048) / 10}
+                  // onRotate={this._onRotate}
+                  materials={["table"]}
+                  dragType="FixedToWorld"
+                  onDrag={this._onDrag}
+                  // rotation={this.state.rotation}
+                />
+              );
+            } else {
+              return (
+                <ViroBox
+                  height={+item.dimensions.x * 0.3048}
+                  length={+item.dimensions.y * 0.3048}
+                  width={+item.dimensions.z * 0.3048}
+                  // height={(item.dimensions.x * 0.3048) / 10}
+                  // length={(item.dimensions.y * 0.3048) / 10}
+                  // width={(item.dimensions.z * 0.3048) / 10}
+                  // onRotate={this._onRotate}
+                  materials={["table"]}
+                  dragType="FixedToWorld"
+                  onDrag={this._onDrag}
+                  // rotation={this.state.rotation}
+                />
+              );
+            }
+          })}
         <ViroAmbientLight color={"#aaaaaa"} />
         <ViroSpotLight
           innerAngle={5}
@@ -53,81 +173,25 @@ export default class FurnitureScreenAR extends Component {
           color="#ffffff"
           castsShadow={true}
         />
-        {/* {this.state.nodes &&
-          this.state.nodes.map((node, idx) => {
-            return this.renderNode(node.x, node.y, node.z, idx);
-          })} */}
-        {/* {this.renderNode(0, -1, 0)} */}
       </ViroARScene>
     );
   }
-  _onInitialized(state, reason) {
-    if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ text:"furniture screen AR" });
-    } else if (state == ViroConstants.TRACKING_NONE) {
-      // Handle loss of tracking
-    }
-  }
-  // _onDrag(draggedToPosition, source) {
-  //   this.setState({
-  //     text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
-  //       draggedToPosition[1] * 10
-  //     )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
-  //   });
-  // }
 
-  // renderNode = (x, y, z, key) => {
-  //   return (
-  //     <ViroNode
-  //       position={[x, y, z]}
-  //       key={key}
-  //       dragType="FixedToWorld"
-  //       onDrag={this._onDrag}
-  //       onClick={this._onClick}
-  //     >
-  //       <ViroText
-  //         text={this.state.text}
-  //         scale={[0.3, 0.3, 0.3]}
-  //         position={[0, 0.4, 0]}
-  //         style={styles.helloWorldTextStyle}
-  //       />
-  //       <Viro3DObject
-  //         source={require("../res/emoji_smile/emoji_smile.vrx")}
-  //         resources={[
-  //           require("../res/emoji_smile/emoji_smile_diffuse.png"),
-  //           require("../res/emoji_smile/emoji_smile_normal.png"),
-  //           require("../res/emoji_smile/emoji_smile_specular.png")
-  //         ]}
-  //         position={[0, 0, 0.1]}
-  //         scale={[0.2, 0.2, 0.2]}
-  //         type="VRX"
-  //       />
-  //     </ViroNode>
-  //   );
-  // };
 }
-// var styles = StyleSheet.create({
-//   helloWorldTextStyle: {
-//     fontFamily: "Arial",
-//     fontSize: 30,
-//     color: "#ffffff",
-//     textAlignVertical: "center",
-//     textAlign: "center"
-//   }
-// });
-// ViroMaterials.createMaterials({
-//   grid: {
-//     diffuseTexture: require("../res/grid_bg.jpg")
-//   }
-// });
-// ViroAnimations.registerAnimations({
-//   rotate: {
-//     properties: {
-//       rotateY: "+=90",
-//       rotateX: "+=90",
-//       rotateZ: "+=90"
-//     },
-//     duration: 1000 //.25 seconds
-//   }
-// });
+
+ViroMaterials.createMaterials({
+  couch: {
+    diffuseTexture: require("../res/couch.png")
+  },
+  bed: {
+    diffuseTexture: require("../res/bed.png")
+  },
+  table: {
+    diffuseTexture: require("../res/table.png")
+  },
+  other: {
+    diffuseTexture: require("../res/other.png")
+  }
+});
+
 module.exports = FurnitureScreenAR;
