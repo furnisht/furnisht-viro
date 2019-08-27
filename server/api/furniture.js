@@ -19,6 +19,7 @@ router.get("/:userId", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     const { type, dimensions, userId } = req.body;
+    //previously, we broke up dimensions with + to coerce into a number, but we were able to do this in furniturescreen submitFurniture before sending to database
     const newFurniture = await Furniture.create({
       type,
       dimensions,
