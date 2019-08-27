@@ -29,7 +29,8 @@ export default class Main extends Component {
       sharedProps: sharedProps,
       furnishScreen: false,
       floorPlanScreen: false,
-      homeScreen: true
+      homeScreen: true,
+      projectScreen: false
     };
 
     this._exitViro = this._exitViro.bind(this);
@@ -37,6 +38,7 @@ export default class Main extends Component {
 
     this.homeScreenButtons = this.homeScreenButtons.bind(this);
     this.floorPlanScreenButtons = this.floorPlanScreenButtons.bind(this);
+    this.projectButton = this.projectButton.bind(this);
 
     this.furnishStateToggle = this.furnishStateToggle.bind(this);
     this.floorStateToggle = this.floorStateToggle.bind(this);
@@ -52,6 +54,13 @@ export default class Main extends Component {
   floorPlanButton = () => {
     this.setState({
       floorPlanScreen: !this.state.floorPlanScreen,
+      homeScreen: false
+    });
+  };
+
+  projectButton = () => {
+    this.setState({
+      projectScreen: !this.state.projectScreen,
       homeScreen: false
     });
   };
@@ -72,7 +81,8 @@ export default class Main extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={styles.titleText}>Project</Text>
+          <Text style={styles.titleText} onPress={this.projectButton}
+          >Project</Text>
         </TouchableOpacity>
       </View>
     );
@@ -147,6 +157,15 @@ export default class Main extends Component {
         )}
         {this.state.furnishScreen && this.homeScreenButtons()}
         {this.state.homeScreen && this.homeScreenButtons()}
+
+        {this.state.projectScreen && (
+          <ViroARSceneNavigator
+            style={styles.arView}
+            {...this.state.sharedProps}
+            initialScene={{ scene: require("./js/components/DefaultScreen") }}
+          />
+        )}
+
       </View>
     );
   }
