@@ -15,7 +15,8 @@ import {
   ViroAnimations,
   ViroButton,
   ViroARCamera,
-  ViroPolygon
+  ViroPolygon,
+  setNativeProps
 } from "react-viro";
 import { ngrokKey } from "../../secrets";
 import axios from "axios";
@@ -27,7 +28,8 @@ export default class FloorPlanScreen extends Component {
     this.state = {
       text: "Initializing AR Scene",
       nodes: [{ x: 0, y: 0, z: -1, key: 0 }],
-      vertices: []
+      vertices: [],
+      area: "Here's Area"
     };
     // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
@@ -48,7 +50,7 @@ export default class FloorPlanScreen extends Component {
       // Handle loss of tracking
     }
   }
-  // which is king??
+  // pretty sure this is unnecessary, possible icon image capability
   _onButtonTap() {
     if (this.state.nodes.length > 0) {
       this.setState({
@@ -100,9 +102,11 @@ export default class FloorPlanScreen extends Component {
     this.setState({ nodes: currentArr });
   }
 
-  // _onRotate(rotateState, rotationFactor, source){
-  //   if(rotateS)
-  // }
+  _onRotate = (rotateState, rotationFactor, source) => {
+    this._ViroPolygon.setNativeProps({
+      rotation: [-90, 0 + rotationFactor, 0]
+    });
+  };
 
   deleteNode() {
     let newNodes = [...this.state.nodes];
@@ -123,7 +127,24 @@ export default class FloorPlanScreen extends Component {
       coordinates: submitNodes,
       userId: 1
     });
-    this.setState({ nodes: [{ x: 0, y: 0, z: 1, key: 0 }] });
+    let updatedArea = this.getArea(initialVert) * 100;
+    this.setState({
+      nodes: [{ x: 0, y: 0, z: 1, key: 0 }],
+      area: `${updatedArea}`
+    });
+  }
+
+  getArea(pointsArr) {
+    let area = 0;
+    let j = pointsArr.length - 1;
+    for (let i = 0; i < pointsArr.length; i++) {
+      area =
+        area +
+        (pointsArr[j][0] + pointsArr[i][0]) *
+          (pointsArr[j][1] - pointsArr[i][1]);
+      j = i;
+    }
+    return Math.abs(area / 2);
   }
 
   renderNode(x, y, z, key) {
@@ -148,7 +169,7 @@ export default class FloorPlanScreen extends Component {
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         <ViroText
-          text={this.state.text}
+          text={this.state.area}
           scale={[0.2, 0.2, 0.1]}
           position={[0, 0.3, -0.5]}
           style={styles.helloWorldTextStyle}
@@ -163,13 +184,6 @@ export default class FloorPlanScreen extends Component {
           castsShadow={true}
         />
 
-        {/* <ViroText
-            text="New Node"
-            scale={[0.1, 0.1, 0.1]}
-            position={[0, 0.1, -0.5]}
-            style={styles.helloWorldTextStyle}
-            transformBehaviors={["billboard"]}
-          /> */}
         <ViroButton
           source={require("../res/plus.png")}
           tapSource={require("../res/plus-click.png")}
@@ -179,13 +193,7 @@ export default class FloorPlanScreen extends Component {
           onTap={this._onButtonTap}
           onClick={this.addNode}
         />
-        {/* <ViroText
-            text="Undo"
-            scale={[0.1, 0.1, 0.1]}
-            position={[0, -0.1, -0.5]}
-            style={styles.helloWorldTextStyle}
-            transformBehaviors={["billboard"]}
-          /> */}
+
         <ViroButton
           source={require("../res/minus.png")}
           tapSource={require("../res/minus-click.png")}
@@ -195,13 +203,7 @@ export default class FloorPlanScreen extends Component {
           onTap={this._onButtonTap}
           onClick={this.deleteNode}
         />
-        {/* <ViroText
-            text="Submit Floor Plan"
-            scale={[0.1, 0.1, 0.1]}
-            position={[0, -0.3, -0.5]}
-            style={styles.helloWorldTextStyle}
-            transformBehaviors={["billboard"]}
-          /> */}
+
         <ViroButton
           source={require("../res/check.png")}
           tapSource={require("../res/check-click.png")}
@@ -212,12 +214,16 @@ export default class FloorPlanScreen extends Component {
           onClick={this.submitFloorPlan}
         />
 
-        {!!this.state.vertices.length && (
+        {this.state.vertices.length > 0 && (
           <ViroPolygon
-            rotation={[-90, 0, 0]}
+            rotation={this.state.rotation}
             position={[0, 0, 0]}
             vertices={this.state.vertices}
             materials={"grid"}
+            ref={VR => (this._ViroPolygon = VR)}
+            onRotate={this._onRotate}
+            onDrag={() => {}}
+            dragType={"FixedToWorld"}
           />
         )}
         {this.state.nodes &&

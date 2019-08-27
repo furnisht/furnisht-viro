@@ -45,7 +45,6 @@ export default class Main extends Component {
     this.deleteFPNodeButton = this.deleteFPNodeButton.bind(this);
     this.createFloorPlan = this.createFloorPlan.bind(this);
     this.editCurrentNode = this.editCurrentNode.bind(this);
-    this.getArea = this.getArea.bind(this);
   }
   //toggle furnish screen
   furnishButton = () => {
@@ -207,18 +206,6 @@ export default class Main extends Component {
       j = i;
     }
     return distances;
-  }
-
-  getArea(pointsArr, numPoints) {
-    let area = 0;
-    let j = numPoints - 1;
-    for (i = 0; i < numPoints; i++) {
-      area =
-        area +
-        (pointsArr[j].x + pointsArr[i].x) * (pointsArr[j].y - pointsArr[i].y);
-      j = i;
-    }
-    return Math.abs(area / 2);
   }
 
   _exitViro() {
