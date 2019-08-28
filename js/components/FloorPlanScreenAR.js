@@ -152,15 +152,14 @@ export default class FloorPlanScreen extends Component {
       <ViroNode
         position={[x, y, z]}
         key={key}
-        dragType="FixedToWorld"
-        onDrag={this._onDrag}
-      >
+        dragType='FixedToWorld'
+        onDrag={this._onDrag}>
         <Viro3DObject
           source={require("../res/arrow.obj")}
           resources={[require("../res/arrow.mtl")]}
           position={[0, 0, 0.1]}
           scale={[0.2, 0.2, 0.2]}
-          type="OBJ"
+          type='OBJ'
         />
       </ViroNode>
     );
@@ -173,6 +172,7 @@ export default class FloorPlanScreen extends Component {
           scale={[0.2, 0.2, 0.1]}
           position={[0, 0.3, -0.5]}
           style={styles.helloWorldTextStyle}
+          transformBehaviors={["billboard"]}
         />
         <ViroAmbientLight color={"#aaaaaa"} />
         <ViroSpotLight
@@ -180,7 +180,7 @@ export default class FloorPlanScreen extends Component {
           outerAngle={90}
           direction={[0, -1, -0.2]}
           position={[0, 3, 1]}
-          color="#ffffff"
+          color='#ffffff'
           castsShadow={true}
         />
         <ViroButton
@@ -191,6 +191,7 @@ export default class FloorPlanScreen extends Component {
           width={0.1}
           onTap={this._onButtonTap}
           onClick={this.addNode}
+          transformBehaviors={["billboard"]}
         />
         <ViroButton
           source={require("../res/minus.png")}
@@ -200,6 +201,7 @@ export default class FloorPlanScreen extends Component {
           width={0.1}
           onTap={this._onButtonTap}
           onClick={this.deleteNode}
+          transformBehaviors={["billboard"]}
         />
 
         <ViroButton
@@ -210,6 +212,7 @@ export default class FloorPlanScreen extends Component {
           width={0.1}
           onTap={this._onButtonTap}
           onClick={this.submitFloorPlan}
+          transformBehaviors={["billboard"]}
         />
 
         {this.state.vertices.length > 0 && (

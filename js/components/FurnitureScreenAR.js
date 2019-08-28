@@ -69,126 +69,127 @@ export default class FurnitureScreenAR extends Component {
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         {this.state.items &&
           this.state.items.map((item, idx) => {
-            if (item.type === "Couch") {
-              return (
-                <ViroNode
-                  position={[-1, -0.5, -1]}
-                  key={item.id}
-                  dragType="FixedToWorld"
-                  onDrag={() => {}}
-                  ref={VB => (this[`_ViroBox${idx}`] = VB)}
-                  onRotate={(rotateState, rotationFactor, source) =>
-                    this._onRotateItems(
-                      rotateState,
-                      rotationFactor,
-                      source,
-                      idx
-                    )
-                  }
-                >
-                  <ViroBox
-                    width={item.dimensions.x * 0.3048}
-                    height={item.dimensions.y * 0.3048}
-                    depth={item.dimensions.z * 0.3048}
-                    materials={["couch"]}
-                    position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
-                  />
-                </ViroNode>
-              );
-            } else if (item.type === "Table") {
-              return (
-                <ViroNode
-                  position={[-0.5, -0.5, -1]}
-                  key={item.id}
-                  dragType="FixedToWorld"
-                  onDrag={() => {}}
-                  ref={VB => (this[`_ViroBox${idx}`] = VB)}
-                  onRotate={(rotateState, rotationFactor, source) =>
-                    this._onRotateItems(
-                      rotateState,
-                      rotationFactor,
-                      source,
-                      idx
-                    )
-                  }
-                >
-                  <ViroBox
-                    width={item.dimensions.x * 0.3048}
-                    height={item.dimensions.y * 0.3048}
-                    depth={item.dimensions.z * 0.3048}
-                    // height={(item.dimensions.x * 0.3048) / 10}
-                    // length={(item.dimensions.y * 0.3048) / 10}
-                    // width={(item.dimensions.z * 0.3048) / 10}
-                    // onRotate={this._onRotate}
-                    position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
-                    materials={["table"]}
-                    // rotation={this.state.rotation}
-                  />
-                </ViroNode>
-              );
-            } else if (item.type === "Bed") {
-              return (
-                <ViroNode
-                  position={[0, -0.5, -1]}
-                  key={item.id}
-                  dragType="FixedToWorld"
-                  onDrag={() => {}}
-                  ref={VB => (this[`_ViroBox${idx}`] = VB)}
-                  onRotate={(rotateState, rotationFactor, source) =>
-                    this._onRotateItems(
-                      rotateState,
-                      rotationFactor,
-                      source,
-                      idx
-                    )
-                  }
-                >
-                  <ViroBox
-                    width={item.dimensions.x * 0.3048}
-                    height={item.dimensions.y * 0.3048}
-                    depth={item.dimensions.z * 0.3048}
-                    // height={(item.dimensions.x * 0.3048) / 10}
-                    // length={(item.dimensions.y * 0.3048) / 10}
-                    // width={(item.dimensions.z * 0.3048) / 10}
-                    // onRotate={this._onRotate}
-                    position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
-                    materials={["bed"]}
-
-                    // rotation={this.state.rotation}
-                  />
-                </ViroNode>
-              );
-            } else {
-              return (
-                <ViroNode
-                  position={[0.5, -0.5, -1]}
-                  key={item.id}
-                  dragType="FixedToWorld"
-                  onDrag={() => {}}
-                  ref={VB => (this[`_ViroBox${idx}`] = VB)}
-                  onRotate={(rotateState, rotationFactor, source) =>
-                    this._onRotateItems(
-                      rotateState,
-                      rotationFactor,
-                      source,
-                      idx
-                    )
-                  }
-                >
-                  <ViroBox
-                    width={item.dimensions.x * 0.3048}
-                    height={item.dimensions.y * 0.3048}
-                    depth={item.dimensions.z * 0.3048}
-                    // height={(item.dimensions.x * 0.3048) / 10}
-                    // length={(item.dimensions.y * 0.3048) / 10}
-                    // width={(item.dimensions.z * 0.3048) / 10}
-                    // onRotate={this._onRotate}
-                    materials={["table"]}
-                    position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
-                    // rotation={this.state.rotation}
-                  />
-                </ViroNode>
-              );
+            if (idx <= 2) {
+              if (item.type === "Couch") {
+                return (
+                  <ViroNode
+                    position={[-1, -0.5, -1]}
+                    key={item.id}
+                    dragType='FixedToWorld'
+                    onDrag={() => {}}
+                    ref={VB => (this[`_ViroBox${idx}`] = VB)}
+                    onRotate={(rotateState, rotationFactor, source) =>
+                      this._onRotateItems(
+                        rotateState,
+                        rotationFactor,
+                        source,
+                        idx
+                      )
+                    }>
+                    <ViroBox
+                      width={item.dimensions.x * 0.3048}
+                      height={item.dimensions.y * 0.3048}
+                      depth={item.dimensions.z * 0.3048}
+                      materials={["couch"]}
+                      position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
+                      opacity={0.7}
+                    />
+                  </ViroNode>
+                );
+              } else if (item.type === "Table") {
+                return (
+                  <ViroNode
+                    position={[-0.5, -0.5, -1]}
+                    key={item.id}
+                    dragType='FixedToWorld'
+                    onDrag={() => {}}
+                    ref={VB => (this[`_ViroBox${idx}`] = VB)}
+                    onRotate={(rotateState, rotationFactor, source) =>
+                      this._onRotateItems(
+                        rotateState,
+                        rotationFactor,
+                        source,
+                        idx
+                      )
+                    }>
+                    <ViroBox
+                      width={item.dimensions.x * 0.3048}
+                      height={item.dimensions.y * 0.3048}
+                      depth={item.dimensions.z * 0.3048}
+                      // height={(item.dimensions.x * 0.3048) / 10}
+                      // length={(item.dimensions.y * 0.3048) / 10}
+                      // width={(item.dimensions.z * 0.3048) / 10}
+                      // onRotate={this._onRotate}
+                      position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
+                      materials={["table"]}
+                      // rotation={this.state.rotation}
+                      opacity={0.7}
+                    />
+                  </ViroNode>
+                );
+              } else if (item.type === "Bed") {
+                return (
+                  <ViroNode
+                    position={[0, -0.5, -1]}
+                    key={item.id}
+                    dragType='FixedToWorld'
+                    onDrag={() => {}}
+                    ref={VB => (this[`_ViroBox${idx}`] = VB)}
+                    onRotate={(rotateState, rotationFactor, source) =>
+                      this._onRotateItems(
+                        rotateState,
+                        rotationFactor,
+                        source,
+                        idx
+                      )
+                    }>
+                    <ViroBox
+                      width={item.dimensions.x * 0.3048}
+                      height={item.dimensions.y * 0.3048}
+                      depth={item.dimensions.z * 0.3048}
+                      // height={(item.dimensions.x * 0.3048) / 10}
+                      // length={(item.dimensions.y * 0.3048) / 10}
+                      // width={(item.dimensions.z * 0.3048) / 10}
+                      // onRotate={this._onRotate}
+                      position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
+                      materials={["bed"]}
+                      // rotation={this.state.rotation}
+                      opacity={0.7}
+                    />
+                  </ViroNode>
+                );
+              } else {
+                return (
+                  <ViroNode
+                    position={[0.5, -0.5, -1]}
+                    key={item.id}
+                    dragType='FixedToWorld'
+                    onDrag={() => {}}
+                    ref={VB => (this[`_ViroBox${idx}`] = VB)}
+                    onRotate={(rotateState, rotationFactor, source) =>
+                      this._onRotateItems(
+                        rotateState,
+                        rotationFactor,
+                        source,
+                        idx
+                      )
+                    }>
+                    <ViroBox
+                      width={item.dimensions.x * 0.3048}
+                      height={item.dimensions.y * 0.3048}
+                      depth={item.dimensions.z * 0.3048}
+                      // height={(item.dimensions.x * 0.3048) / 10}
+                      // length={(item.dimensions.y * 0.3048) / 10}
+                      // width={(item.dimensions.z * 0.3048) / 10}
+                      // onRotate={this._onRotate}
+                      materials={["table"]}
+                      position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
+                      // rotation={this.state.rotation}
+                      opacity={0.7}
+                    />
+                  </ViroNode>
+                );
+              }
             }
           })}
         <ViroAmbientLight color={"#aaaaaa"} />
@@ -197,7 +198,7 @@ export default class FurnitureScreenAR extends Component {
           outerAngle={90}
           direction={[0, -1, -0.2]}
           position={[0, 3, 1]}
-          color="#ffffff"
+          color='#ffffff'
           castsShadow={true}
         />
       </ViroARScene>
