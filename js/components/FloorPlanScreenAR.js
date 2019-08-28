@@ -14,7 +14,6 @@ import {
   ViroNode,
   ViroAnimations,
   ViroButton,
-  ViroARCamera,
   ViroPolygon,
   setNativeProps
 } from "react-viro";
@@ -127,10 +126,11 @@ export default class FloorPlanScreen extends Component {
       coordinates: submitNodes,
       userId: 1
     });
-    let updatedArea = this.getArea(initialVert) * 100;
+    let area = this.getArea(initialVert) * 100 * 3.28;
+    let updatedArea = area.toFixed(2);
     this.setState({
       nodes: [{ x: 0, y: 0, z: 1, key: 0 }],
-      area: `${updatedArea}`
+      area: `Area: ${updatedArea} sq. ft`
     });
   }
 
@@ -183,7 +183,6 @@ export default class FloorPlanScreen extends Component {
           color="#ffffff"
           castsShadow={true}
         />
-
         <ViroButton
           source={require("../res/plus.png")}
           tapSource={require("../res/plus-click.png")}
@@ -193,7 +192,6 @@ export default class FloorPlanScreen extends Component {
           onTap={this._onButtonTap}
           onClick={this.addNode}
         />
-
         <ViroButton
           source={require("../res/minus.png")}
           tapSource={require("../res/minus-click.png")}
@@ -205,7 +203,7 @@ export default class FloorPlanScreen extends Component {
         />
 
         <ViroButton
-          source={require("../res/check-mark-button.png")}
+          source={require("../res/check.png")}
           tapSource={require("../res/check-click-black.png")}
           position={[0, -0.2, -0.5]}
           height={0.1}
@@ -238,8 +236,8 @@ export default class FloorPlanScreen extends Component {
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: "Arial",
-    fontSize: 30,
-    color: "#ffffff",
+    fontSize: 20,
+    color: "#00FA9A",
     textAlignVertical: "center",
     textAlign: "center"
   }

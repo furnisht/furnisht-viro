@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import styles from "../../styles";
 import {
   AppRegistry,
@@ -34,7 +34,7 @@ export class FurnitureScreen extends Component {
       typeofItem: "Couch"
     };
     this.onBack = this.onBack.bind(this);
-    this.submitFurniture = this.submitFurniture.bind(this)
+    this.submitFurniture = this.submitFurniture.bind(this);
   }
 
   onBack = () => {
@@ -52,6 +52,7 @@ export class FurnitureScreen extends Component {
         },
         userId: 1
       });
+      this.props.toggleVisibility();
     } catch (err) {
       console.error(err);
     }

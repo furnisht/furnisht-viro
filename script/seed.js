@@ -44,49 +44,37 @@ async function seed() {
   const furniture = await Promise.all([
     Furniture.create({
       type: "Couch",
-      name: 'living room couch',
+      name: "living room couch",
       userId: 1,
-      dimensions: { x: 3, y: 1, z: 1 }
-    }),
-    Furniture.create({
-      type: "Bed",
-      name: 'my bed',
-      userId: 1,
-      dimensions: { x: 1, y: 0.5, z: 2 }
+      dimensions: { x: 3, y: 5.5, z: 3 }
     }),
     Furniture.create({
       type: "Table",
-      name: 'dining room table',
+      name: "dining room table",
       userId: 1,
-      dimensions: { x: 1, y: 1, z: 1 }
-    }),
-    Furniture.create({
-      type: "Other",
-      name: 'dresser',
-      userId: 1,
-      dimensions: { x: 2, y: 2, z: 2 }
+      dimensions: { x: 1.5, y: 3.4, z: 1.7 }
     }),
     Furniture.create({
       type: "Couch",
-      name: 'tv room couch',
+      name: "tv room couch",
       userId: 2,
       dimensions: { x: 3.1, y: 1.1, z: 1.1 }
     }),
     Furniture.create({
       type: "Bed",
-      name: 'my bed',
+      name: "my bed",
       userId: 2,
       dimensions: { x: 1.1, y: 0.6, z: 2.1 }
     }),
     Furniture.create({
       type: "Table",
-      name: 'kitchen table',
+      name: "kitchen table",
       userId: 2,
       dimensions: { x: 1.1, y: 1.1, z: 1.1 }
     }),
     Furniture.create({
       type: "Other",
-      name: 'grand piano',
+      name: "grand piano",
       userId: 2,
       dimensions: { x: 2.1, y: 2.1, z: 2.1 }
     })
