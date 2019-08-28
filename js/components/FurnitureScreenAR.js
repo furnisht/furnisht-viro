@@ -36,52 +36,19 @@ export default class FurnitureScreenAR extends Component {
     this.state = {
       text: "Loading Furniture Screen",
       items: [
-        // {
-        //   type: "Couch",
-        //   name: "living room couch",
-        //   dimensions: {
-        //     x: 6,
-        //     y: 2,
-        //     z: 2
-        //   }
-        // },
-        // {
-        //   type: "Bed",
-        //   name: "master bed",
-        //   dimensions: {
-        //     x: 2,
-        //     y: 4,
-        //     z: 2
-        //   }
-        // }
       ],
       rotation: [0, 0.7, 0],
       // visibleChoice: false (for overlay, might not need)
     };
 
     this._onInitialized = this._onInitialized.bind(this);
-    this._onDrag = this._onDrag.bind(this);
+    // this._onDrag = this._onDrag.bind(this);
     // this._onRotate = this._onRotate.bind(this);
   }
 
   async componentDidMount() {
     const furniture = await axios.get(`${ngrokKey}/api/furniture/1`);
     this.setState({ items: furniture.data });
-  }
-
-  // _onRotate(rotateState, rotationFactor, source) {
-  //   if (rotateState === 3) {
-  //     this.rotation = [0, rotationFactor, 0];
-  //   }
-  // }
-
-
-  _onDrag(draggedToPosition, source) {
-    // this.setState({
-    //   text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
-    //     draggedToPosition[1] * 10
-    //   )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
-    // });
   }
 
   _onInitialized(state, reason) {
@@ -109,7 +76,7 @@ export default class FurnitureScreenAR extends Component {
                   // onRotate={this._onRotate}
                   materials={["couch"]}
                   dragType="FixedToWorld"
-                  onDrag={this._onDrag}
+                  onDrag={()=>{}}
                   // rotation={this.state.rotation}
                 />
               );
@@ -126,7 +93,7 @@ export default class FurnitureScreenAR extends Component {
                   position={[0, 0, -1]}
                   materials={["table"]}
                   dragType="FixedToWorld"
-                  onDrag={this._onDrag}
+                  onDrag={()=>{}}
                   // rotation={this.state.rotation}
                 />
               );
@@ -140,9 +107,9 @@ export default class FurnitureScreenAR extends Component {
                   // length={(item.dimensions.y * 0.3048) / 10}
                   // width={(item.dimensions.z * 0.3048) / 10}
                   // onRotate={this._onRotate}
-                  materials={["table"]}
+                  materials={["bed"]}
                   dragType="FixedToWorld"
-                  onDrag={this._onDrag}
+                  onDrag={()=>{}}
                   // rotation={this.state.rotation}
                 />
               );
@@ -158,7 +125,7 @@ export default class FurnitureScreenAR extends Component {
                   // onRotate={this._onRotate}
                   materials={["table"]}
                   dragType="FixedToWorld"
-                  onDrag={this._onDrag}
+                  onDrag={()=>{}}
                   // rotation={this.state.rotation}
                 />
               );

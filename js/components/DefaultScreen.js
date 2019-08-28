@@ -12,23 +12,54 @@ import {
   ViroSpotLight,
   ViroARPlaneSelector,
   ViroNode,
+  ViroPolygon,
   ViroAnimations
 } from "react-viro";
+import axios from "axios";
+import { ngrokKey } from "../../secrets";
 
 export default class DefaultScreen extends Component {
+
   constructor() {
     super();
-    // Set initial state here
     this.state = {
       text: "Initializing AR...",
-      nodes: [{ x: 0, y: 0, z: 1, key: 0 }]
+      items: [],
+      rooms: []
     };
-    // bind 'this' to functions
     this._onInitialized = this._onInitialized.bind(this);
-    // this._onDrag = this._onDrag.bind(this);
-    // this._onClick = this._onClick.bind(this);
   }
+
+  async componentDidMount() {
+    const furniture = await axios.get(`${ngrokKey}/api/furniture/1`);
+    const rooms = await axios.get(`${ngrokKey}/api/floorplans/1`)
+
+    let newArr = []
+        for (let i=0; i<rooms.data.length; i++) {
+          newArr[i] = []
+          for (let j=0; j<rooms.data[i].coordinates.length; j++) {
+            newArr[i].push([rooms.data[i].coordinates[j].x, rooms.data[i].coordinates[j].y])
+          }
+        }
+    this.setState({ items: furniture.data, rooms: newArr });
+  }
+
+  _onInitialized(state, reason) {
+    if (state == ViroConstants.TRACKING_NORMAL) {
+      this.setState({ text: "HI" });
+    } else if (state == ViroConstants.TRACKING_NONE) {
+      // Handle loss of tracking
+    }
+  }
+
+  _onRotate = (rotateState, rotationFactor, source, key) => {
+    this[`_ViroPolygon${key}`].setNativeProps({
+      rotation: [-90, 0 + rotationFactor, 0]
+    });
+  };
+
   render() {
+    let counter = 0
     return (
       <ViroARScene onTrackingUpdated={this._onInitialized}>
         <ViroText
@@ -38,9 +69,6 @@ export default class DefaultScreen extends Component {
           style={styles.helloWorldTextStyle}
         />
         <ViroAmbientLight color={"#aaaaaa"} />
-        <ViroBox>
-
-        </ViroBox>
         <ViroSpotLight
           innerAngle={5}
           outerAngle={90}
@@ -49,17 +77,93 @@ export default class DefaultScreen extends Component {
           color="#ffffff"
           castsShadow={true}
         />
+
+        {this.state.rooms &&
+        this.state.rooms.map(room => {
+          counter++
+          return (
+            <ViroPolygon
+            position={[0, 0, 0]}
+            rotation={[-90, 0, 0]}
+            vertices={room}
+            scale={[0.25, 0.25, 0.25]}
+            materials={"grid"}
+            ref={VR => (this[`_ViroPolygon${counter}`] = VR)}
+            onRotate={(rotateState, rotationFactor, source) => this._onRotate(rotateState, rotationFactor, source, key=counter)}
+            onDrag={() => {}}
+            dragType={"FixedToWorld"}
+          />
+          )
+        })
+        }
+
+        {this.state.items &&
+          this.state.items.map(item => {
+            if (item.type === "Couch") {
+              return (
+                <ViroBox
+                  height={item.dimensions.x * 0.3048}
+                  length={item.dimensions.y * 0.3048}
+                  width={item.dimensions.z * 0.3048}
+                  scale={[0.25, 0.25, 0.25]}
+                  // onRotate={this._onRotate}
+                  materials={["couch"]}
+                  dragType="FixedToWorld"
+                  onDrag={()=>{}}
+                  // rotation={this.state.rotation}
+                />
+              );
+            } else if (item.type === "Table") {
+              return (
+                <ViroBox
+                  height={item.dimensions.x * 0.3048}
+                  length={item.dimensions.y * 0.3048}
+                  width={item.dimensions.z * 0.3048}
+                  scale={[0.25, 0.25, 0.25]}
+                  // onRotate={this._onRotate}
+                  position={[0, 0, -1]}
+                  materials={["table"]}
+                  dragType="FixedToWorld"
+                  onDrag={()=>{}}
+                  // rotation={this.state.rotation}
+                />
+              );
+            } else if (item.type === "Bed") {
+              return (
+                <ViroBox
+                  height={item.dimensions.x * 0.3048}
+                  length={item.dimensions.y * 0.3048}
+                  width={item.dimensions.z * 0.3048}
+                  scale={[0.25, 0.25, 0.25]}
+                  // onRotate={this._onRotate}
+                  materials={["bed"]}
+                  dragType="FixedToWorld"
+                  onDrag={()=>{}}
+                  // rotation={this.state.rotation}
+                />
+              );
+            } else {
+              return (
+                <ViroBox
+                  height={+item.dimensions.x * 0.3048}
+                  length={+item.dimensions.y * 0.3048}
+                  width={+item.dimensions.z * 0.3048}
+                  scale={[0.25, 0.25, 0.25]}
+                  // onRotate={this._onRotate}
+                  materials={["table"]}
+                  dragType="FixedToWorld"
+                  onDrag={()=>{}}
+                  // rotation={this.state.rotation}
+                />
+              );
+            }
+          })}
+
       </ViroARScene>
     );
   }
-  _onInitialized(state, reason) {
-    if (state == ViroConstants.TRACKING_NORMAL) {
-      this.setState({ text: "HI" });
-    } else if (state == ViroConstants.TRACKING_NONE) {
-      // Handle loss of tracking
-    }
-  }
 }
+
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: "Arial",
@@ -71,7 +175,7 @@ var styles = StyleSheet.create({
 });
 ViroMaterials.createMaterials({
   grid: {
-    diffuseTexture: require("../res/grid_bg.jpg")
+    diffuseTexture: require("../res/blueprint.png")
   }
 });
 ViroAnimations.registerAnimations({
@@ -84,50 +188,5 @@ ViroAnimations.registerAnimations({
     duration: 1000 //.25 seconds
   }
 });
-module.exports = DefaultScreen;
 
-// _onDrag(draggedToPosition, source) {
-//   this.setState({
-//     text: `X: ${Math.round(draggedToPosition[0] * 10)}, Y: ${Math.round(
-//       draggedToPosition[1] * 10
-//     )}, Z: ${Math.round(draggedToPosition[2] * 10)}`
-//   });
-// }
-// _onClick(position, source) {
-//   this.setState({
-//     text: "clicked",
-//     nodes: [
-//       ...this.state.nodes,
-//       { x: position[0] + 0.2, y: position[1], z: position[2] }
-//     ]
-//   });
-// }
-// renderNode = (x, y, z, key) => {
-//   return (
-//     <ViroNode
-//       position={[x, y, z]}
-//       key={key}
-//       dragType="FixedToWorld"
-//       onDrag={this._onDrag}
-//       onClick={this._onClick}
-//     >
-//       <ViroText
-//         text={this.state.text}
-//         scale={[0.3, 0.3, 0.3]}
-//         position={[0, 0.4, 0]}
-//         style={styles.helloWorldTextStyle}
-//       />
-//       <Viro3DObject
-//         source={require("../res/emoji_smile/emoji_smile.vrx")}
-//         resources={[
-//           require("../res/emoji_smile/emoji_smile_diffuse.png"),
-//           require("../res/emoji_smile/emoji_smile_normal.png"),
-//           require("../res/emoji_smile/emoji_smile_specular.png")
-//         ]}
-//         position={[0, 0, 0.1]}
-//         scale={[0.2, 0.2, 0.2]}
-//         type="VRX"
-//       />
-//     </ViroNode>
-//   );
-// };
+module.exports = DefaultScreen;
