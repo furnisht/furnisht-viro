@@ -82,7 +82,7 @@ export default class DefaultScreen extends Component {
           outerAngle={90}
           direction={[0, -1, -0.2]}
           position={[0, 3, 1]}
-          color="#ffffff"
+          color='#ffffff'
           castsShadow={true}
         />
 
@@ -114,7 +114,7 @@ export default class DefaultScreen extends Component {
                 <ViroNode
                   position={[-1, -0.5, -1]}
                   key={item.id}
-                  dragType="FixedToWorld"
+                  dragType='FixedToWorld'
                   onDrag={() => {}}
                   ref={VB => (this[`_ViroBox${idx}`] = VB)}
                   onRotate={(rotateState, rotationFactor, source) =>
@@ -124,16 +124,16 @@ export default class DefaultScreen extends Component {
                       source,
                       idx
                     )
-                  }
-                >
+                  }>
                   <ViroBox
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
                     depth={item.dimensions.z * 0.3048}
                     scale={[0.25, 0.25, 0.25]}
                     materials={["couch"]}
-                    position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
+                    position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
                     // rotation={this.state.rotation}
+                    opacity={.7}
                   />
                 </ViroNode>
               );
@@ -142,7 +142,7 @@ export default class DefaultScreen extends Component {
                 <ViroNode
                   position={[-0.5, -0.5, -1]}
                   key={item.id}
-                  dragType="FixedToWorld"
+                  dragType='FixedToWorld'
                   onDrag={() => {}}
                   ref={VB => (this[`_ViroBox${idx}`] = VB)}
                   onRotate={(rotateState, rotationFactor, source) =>
@@ -152,16 +152,16 @@ export default class DefaultScreen extends Component {
                       source,
                       idx
                     )
-                  }
-                >
+                  }>
                   <ViroBox
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
                     depth={item.dimensions.z * 0.3048}
                     scale={[0.25, 0.25, 0.25]}
                     materials={["table"]}
-                    position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
+                    position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
                     // rotation={this.state.rotation}
+                    opacity={.7}
                   />
                 </ViroNode>
               );
@@ -170,7 +170,7 @@ export default class DefaultScreen extends Component {
                 <ViroNode
                   position={[0, -0.5, -1]}
                   key={item.id}
-                  dragType="FixedToWorld"
+                  dragType='FixedToWorld'
                   onDrag={() => {}}
                   ref={VB => (this[`_ViroBox${idx}`] = VB)}
                   onRotate={(rotateState, rotationFactor, source) =>
@@ -180,16 +180,16 @@ export default class DefaultScreen extends Component {
                       source,
                       idx
                     )
-                  }
-                >
+                  }>
                   <ViroBox
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
                     depth={item.dimensions.z * 0.3048}
                     scale={[0.25, 0.25, 0.25]}
                     materials={["bed"]}
-                    position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
+                    position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
                     // rotation={this.state.rotation}
+                    opacity={.7}
                   />
                 </ViroNode>
               );
@@ -198,7 +198,7 @@ export default class DefaultScreen extends Component {
                 <ViroNode
                   position={[0.5, -0.5, -1]}
                   key={item.id}
-                  dragType="FixedToWorld"
+                  dragType='FixedToWorld'
                   onDrag={() => {}}
                   ref={VB => (this[`_ViroBox${idx}`] = VB)}
                   onRotate={(rotateState, rotationFactor, source) =>
@@ -208,16 +208,16 @@ export default class DefaultScreen extends Component {
                       source,
                       idx
                     )
-                  }
-                >
+                  }>
                   <ViroBox
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
                     depth={item.dimensions.z * 0.3048}
                     scale={[0.25, 0.25, 0.25]}
                     materials={["other"]}
-                    position={[0, (item.dimensions.y * 0.3048) / 2, 0]}
+                    position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
                     // rotation={this.state.rotation}
+                    opacity={.7}
                   />
                 </ViroNode>
               );

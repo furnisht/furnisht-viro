@@ -147,6 +147,7 @@ export default class Main extends Component {
             style={styles.arView}
             {...this.state.sharedProps}
             initialScene={{ scene: InitialARScene }}
+            //autoFocus={false}
           />
         )}
 
@@ -155,6 +156,7 @@ export default class Main extends Component {
             style={styles.arView}
             {...this.state.sharedProps}
             initialScene={{ scene: InitialARScene }}
+            //autofocus={false}
           />
         )}
 
@@ -167,6 +169,7 @@ export default class Main extends Component {
               nodes: this.state.fPNodes,
               editCurrentNode: this.editCurrentNode
             }}
+            //autofocus={false}
           />
         )}
 
@@ -182,6 +185,7 @@ export default class Main extends Component {
             style={styles.arView}
             {...this.state.sharedProps}
             initialScene={{ scene: require("./js/components/DefaultScreen") }}
+            //autofocus={false}
           />
         )}
 
