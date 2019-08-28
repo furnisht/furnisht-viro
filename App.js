@@ -38,10 +38,12 @@ export default class Main extends Component {
 
     this.homeScreenButtons = this.homeScreenButtons.bind(this);
     this.floorPlanScreenButtons = this.floorPlanScreenButtons.bind(this);
+    this.projectScreenButtons = this.projectScreenButtons.bind(this);
     this.projectButton = this.projectButton.bind(this);
 
     this.furnishStateToggle = this.furnishStateToggle.bind(this);
     this.floorStateToggle = this.floorStateToggle.bind(this);
+    this.projectStateToggle = this.projectStateToggle.bind(this);
   }
   //toggle furnish screen
   furnishOverlay = () => {
@@ -81,8 +83,9 @@ export default class Main extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={styles.titleText} onPress={this.projectButton}
-          >Project</Text>
+          <Text style={styles.titleText} onPress={this.projectButton}>
+            Project
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -98,6 +101,15 @@ export default class Main extends Component {
     );
   }
 
+  projectScreenButtons() {
+    return (
+      <View style={styles.floorPlanNav}>
+        <TouchableOpacity onPress={this.projectStateToggle}>
+          <Image source={require("./js/res/go-back-left-arrow.png")} />
+        </TouchableOpacity>
+      </View>
+    );
+  }
   _exitViro() {
     this.setState({
       navigatorType: UNSET
@@ -115,6 +127,13 @@ export default class Main extends Component {
     this.setState({
       floorPlanScreen: !this.state.floorPlanScreen,
       homeScreen: !this.state.homeScreen
+    });
+  }
+
+  projectStateToggle() {
+    this.setState({
+      projectScreen: !this.state.projectScreen,
+      homeScreen: true
     });
   }
 
@@ -166,6 +185,7 @@ export default class Main extends Component {
           />
         )}
 
+        {this.state.projectScreen && this.projectScreenButtons()}
       </View>
     );
   }

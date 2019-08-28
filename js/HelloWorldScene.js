@@ -18,7 +18,7 @@ export default class HelloWorldScene extends Component {
       <ViroScene>
         <Viro360Image source={require("./res/guadalupe_360.jpg")} />
         <ViroText
-          text='Hello World!'
+          text="Hello World!"
           width={2}
           height={2}
           position={[0, 0, -2]}
@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: "Arial",
     fontSize: 60,
-    color: "#ffffff",
+    color: "#00FA9A",
     textAlignVertical: "center",
     textAlign: "center"
   }
