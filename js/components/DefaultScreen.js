@@ -95,7 +95,7 @@ export default class DefaultScreen extends Component {
                 rotation={[-90, 0, 0]}
                 vertices={room}
                 key={idx}
-                scale={[0.25, 0.25, 0.25]}
+                scale={[0.5, 0.5, 0.5]}
                 materials={"grid"}
                 ref={VR => (this[`_ViroPolygon${idx}`] = VR)}
                 onRotate={(rotateState, rotationFactor, source) =>
@@ -129,7 +129,7 @@ export default class DefaultScreen extends Component {
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
                     depth={item.dimensions.z * 0.3048}
-                    scale={[0.25, 0.25, 0.25]}
+                    scale={[0.35, 0.35, 0.35]}
                     materials={["couch"]}
                     position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
                     // rotation={this.state.rotation}
@@ -157,7 +157,7 @@ export default class DefaultScreen extends Component {
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
                     depth={item.dimensions.z * 0.3048}
-                    scale={[0.25, 0.25, 0.25]}
+                    scale={[0.35, 0.35, 0.35]}
                     materials={["table"]}
                     position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
                     // rotation={this.state.rotation}
@@ -185,7 +185,7 @@ export default class DefaultScreen extends Component {
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
                     depth={item.dimensions.z * 0.3048}
-                    scale={[0.25, 0.25, 0.25]}
+                    scale={[0.35, 0.35, 0.35]}
                     materials={["bed"]}
                     position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
                     // rotation={this.state.rotation}
@@ -213,7 +213,7 @@ export default class DefaultScreen extends Component {
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
                     depth={item.dimensions.z * 0.3048}
-                    scale={[0.25, 0.25, 0.25]}
+                    scale={[0.35, 0.35, 0.35]}
                     materials={["other"]}
                     position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
                     // rotation={this.state.rotation}

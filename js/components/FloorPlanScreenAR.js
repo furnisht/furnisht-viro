@@ -118,7 +118,7 @@ export default class FloorPlanScreen extends Component {
   async submitFloorPlan() {
     let initialVert = [];
     const submitNodes = this.state.nodes.map(node => {
-      initialVert.push([node.x / 10, node.z / 10]);
+      initialVert.push([node.x / 5, node.z / 5]);
       return { x: node.x, y: node.z };
     });
     this.setState({ vertices: initialVert });
