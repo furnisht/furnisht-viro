@@ -91,11 +91,11 @@ export default class DefaultScreen extends Component {
             counter++;
             return (
               <ViroPolygon
-                position={[0, 0, 0]}
+                position={[0, -1, -1]}
                 rotation={[-90, 0, 0]}
                 vertices={room}
                 key={idx}
-                scale={[0.5, 0.5, 0.5]}
+                scale={[0.15, 0.15, 0.15]}
                 materials={"grid"}
                 ref={VR => (this[`_ViroPolygon${idx}`] = VR)}
                 onRotate={(rotateState, rotationFactor, source) =>
@@ -128,12 +128,12 @@ export default class DefaultScreen extends Component {
                   <ViroBox
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
-                    depth={item.dimensions.z * 0.3048}
-                    scale={[0.35, 0.35, 0.35]}
+                    length={item.dimensions.z * 0.3048}
+                    scale={[0.2, 0.2, 0.2]}
                     materials={["couch"]}
-                    position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
+                    position={[0, (item.dimensions.y * 0.3048 * 0.2) / 2, 0]}
                     // rotation={this.state.rotation}
-                    opacity={.7}
+                    opacity={0.7}
                   />
                 </ViroNode>
               );
@@ -156,12 +156,12 @@ export default class DefaultScreen extends Component {
                   <ViroBox
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
-                    depth={item.dimensions.z * 0.3048}
-                    scale={[0.35, 0.35, 0.35]}
+                    length={item.dimensions.z * 0.3048}
+                    scale={[0.2, 0.2, 0.2]}
                     materials={["table"]}
-                    position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
+                    position={[0, (item.dimensions.y * 0.3048 * 0.2) / 2, 0]}
                     // rotation={this.state.rotation}
-                    opacity={.7}
+                    opacity={0.7}
                   />
                 </ViroNode>
               );
@@ -184,12 +184,12 @@ export default class DefaultScreen extends Component {
                   <ViroBox
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
-                    depth={item.dimensions.z * 0.3048}
-                    scale={[0.35, 0.35, 0.35]}
+                    length={item.dimensions.z * 0.3048}
+                    scale={[0.2, 0.2, 0.2]}
                     materials={["bed"]}
-                    position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
+                    position={[0, (item.dimensions.y * 0.3048 * 0.2) / 2, 0]}
                     // rotation={this.state.rotation}
-                    opacity={.7}
+                    opacity={0.7}
                   />
                 </ViroNode>
               );
@@ -212,12 +212,12 @@ export default class DefaultScreen extends Component {
                   <ViroBox
                     width={item.dimensions.x * 0.3048}
                     height={item.dimensions.y * 0.3048}
-                    depth={item.dimensions.z * 0.3048}
-                    scale={[0.35, 0.35, 0.35]}
+                    length={item.dimensions.z * 0.3048}
+                    scale={[0.2, 0.2, 0.2]}
                     materials={["other"]}
-                    position={[0, (item.dimensions.y * 0.3048 * 0.25) / 2, 0]}
+                    position={[0, (item.dimensions.y * 0.3048 * 0.2) / 2, 0]}
                     // rotation={this.state.rotation}
-                    opacity={.7}
+                    opacity={0.7}
                   />
                 </ViroNode>
               );
