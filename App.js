@@ -8,6 +8,7 @@ import { ngrokKey } from "./secrets";
 import axios from "axios";
 
 import FloorPlanScreen from "./js/components/FloorPlanScreenAR";
+import SplashScreen from "./js/components/SplashScreen";
 
 import { Overlay } from "react-native-elements";
 
@@ -30,7 +31,8 @@ export default class Main extends Component {
       furnishScreen: false,
       floorPlanScreen: false,
       homeScreen: true,
-      projectScreen: false
+      projectScreen: false,
+      isLoading: true
     };
 
     this._exitViro = this._exitViro.bind(this);
@@ -45,6 +47,22 @@ export default class Main extends Component {
     this.floorStateToggle = this.floorStateToggle.bind(this);
     this.projectStateToggle = this.projectStateToggle.bind(this);
   }
+
+  async componentDidMount() {
+    const data = await this.splashLoader();
+    if (data !== null) {
+      this.setState({ isLoading: false });
+    }
+  }
+  //fake loader for splash screen
+  splashLoader = async () => {
+    return new Promise(resolve =>
+      setTimeout(() => {
+        resolve("result");
+      }, 2500)
+    );
+  };
+
   //toggle furnish screen
   furnishOverlay = () => {
     this.setState({
@@ -138,6 +156,9 @@ export default class Main extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return <SplashScreen />;
+    }
     return (
       <View style={styles.outer}>
         {/* <Instructions /> */}
