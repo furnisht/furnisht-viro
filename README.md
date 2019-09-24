@@ -17,14 +17,14 @@ Furnisht utilizes Viro React to obtain coordinates of a room to create a 2-d flo
  
 Furnisht has three buttons on its main screen:
  
-#### Furnish
+### Furnish
 When clicking the furnish button, the user can input the dimensions of furniture that they already own, and see what their furniture would look in a new space. 
  
  
 
  
  
-#### Floor Plan
+### Floor Plan
 The Floor Plan functionality of Furnisht allows a user to calculate a room’s area, and create a 2d scaled floor plan of a space. 
  
  
@@ -36,7 +36,7 @@ To create a floor plan:
 
 
 
-#### Projects
+### Projects
 Users have the capability to play around with scaled versions of their floor plans and furniture to see how their furniture will fit in different spaces. All furniture and floor plans are scaled to NUMBER of their size. User can rotate floor plans and furniture over and over until furniture fits perfectly in their space!
 
 
