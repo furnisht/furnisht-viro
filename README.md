@@ -39,7 +39,6 @@ To create a floor plan:
 ####Projects
 Users have the capability to play around with scaled versions of their floor plans and furniture to see how their furniture will fit in different spaces. All furniture and floor plans are scaled to NUMBER of their size. User can rotate floor plans and furniture over and over until furniture fits perfectly in their space!
 
-INSERT PROJECTS PICTURE
 
 
 Make sure the job is fully Furnisht!
