@@ -5,7 +5,7 @@ Furnisht utilizes Viro React to obtain coordinates of a room to create a 2-d flo
 
 
 
-##Getting Started
+##Getting Started##
 **1.** Since Furnisht is a mobile app and uses ViroReact AR technology, the user must download ViroMedia from your smartphone’s app store.__
 **2.** `git clone` this repository to your local computer.__
 **3.** In your computer’s terminal, run `npm install`, and then run `npm start`
