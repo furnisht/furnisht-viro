@@ -49,7 +49,7 @@ export default class FloorPlanScreen extends Component {
       // Handle loss of tracking
     }
   }
-  // pretty sure this is unnecessary, possible icon image capability
+
   _onButtonTap() {
     if (this.state.nodes.length > 0) {
       this.setState({
@@ -66,7 +66,7 @@ export default class FloorPlanScreen extends Component {
       });
     }
   }
-  // which is king??
+
   addNode(position, source) {
     if (this.state.nodes.length > 0) {
       this.setState({
