@@ -18,7 +18,7 @@
     "passport": "^0.4.0",
     "pg": "^7.12.1",
     "react": "16.8.3",
-    "react-native": "0.59.3",
+    "react-native": "0.62.3",
     "react-native-display": "^1.0.8",
     "react-native-elements": "^1.1.0",
     "react-native-firebase": "^5.5.6",
